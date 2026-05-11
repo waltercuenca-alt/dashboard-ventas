@@ -224,6 +224,16 @@
       font-weight: 800;
       text-transform: uppercase;
     }
+    .slot-picker {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .slot-picker select {
+      min-width: 230px;
+    }
     .panel {
       padding: 18px;
       min-width: 0;
@@ -386,9 +396,25 @@
         <div id="productBars"></div>
       </article>
       <article class="panel wide">
+        <h2>Fotos compradas por paquete</h2>
+        <div class="slot-summary" id="photoSummary"></div>
+        <div id="photoPackageBars"></div>
+      </article>
+      <article class="panel wide">
+        <h2>Tasa de conversion de brazaletes</h2>
+        <div class="slot-summary" id="conversionSummary"></div>
+      </article>
+      <article class="panel wide">
         <h2>Ventas por horario reservado</h2>
         <div class="slot-summary" id="slotSummary"></div>
         <div id="timeSlotBars"></div>
+      </article>
+      <article class="panel wide">
+        <h2>Detalle por horario</h2>
+        <div class="slot-picker">
+          <select id="timeSlotSelect"></select>
+        </div>
+        <div class="slot-summary" id="selectedSlotSummary"></div>
       </article>
       <article class="buyer-panel wide">
         <h2>Buscar comprador</h2>
@@ -466,6 +492,7 @@
     const sheetFilter = document.querySelector('#sheetFilter');
     const searchBox = document.querySelector('#searchBox');
     const buyerSearchBox = document.querySelector('#buyerSearchBox');
+    const timeSlotSelect = document.querySelector('#timeSlotSelect');
     const refreshBtn = document.querySelector('#refreshBtn');
     const statusDot = document.querySelector('#statusDot');
     const statusText = document.querySelector('#statusText');
@@ -489,6 +516,10 @@
 
     function formatMetric(value, metric) {
       return metric === fields.cantidad ? num.format(value) : money.format(value);
+    }
+
+    function percent(value) {
+      return num.format(value) + '%';
     }
 
     function setStatus(kind, text) {
@@ -613,6 +644,93 @@
       });
     }
 
+    function isPhotoItem(row) {
+      return String(row[fields.producto] || '').trim().toUpperCase().includes('FOTO');
+    }
+
+    function isBraceletItem(row) {
+      const item = String(row[fields.producto] || '').toUpperCase();
+      return ['PULSERA', 'BRAZALETE'].some(text => item.includes(text));
+    }
+
+    function isStandardOrKidsBracelet(row) {
+      const item = String(row[fields.producto] || '').toUpperCase();
+      const isStandard = item.includes('STANDARD') || item.includes('STANDAR');
+      const isKids = item.includes('KIDS') && !item.includes('PREMIUM');
+      return isBraceletItem(row) && (isStandard || isKids);
+    }
+
+    function receiptKey(row) {
+      return String(row[fields.pedido] || row[fields.cliente] || row[fields.fecha] || '').trim();
+    }
+
+    function photoPackageRows(rows) {
+      const map = new Map();
+      rows.forEach(row => {
+        const packageName = String(row[fields.producto] || '').trim();
+        if (!isPhotoItem(row)) return;
+        if (!map.has(packageName)) {
+          map.set(packageName, { label: packageName, quantity: 0, amount: 0, orders: new Set() });
+        }
+        const item = map.get(packageName);
+        item.quantity += toNumber(row[fields.cantidad]);
+        item.amount += toNumber(row[fields.total]);
+        if (row[fields.pedido]) item.orders.add(row[fields.pedido]);
+      });
+      return [...map.values()].sort((a, b) => b.quantity - a.quantity);
+    }
+
+    function renderPhotoPackages(rows) {
+      const data = photoPackageRows(rows);
+      const summary = document.querySelector('#photoSummary');
+      const bars = document.querySelector('#photoPackageBars');
+
+      if (!data.length) {
+        summary.innerHTML = '<div class="empty">Sin compras de fotos para esta vista.</div>';
+        bars.innerHTML = '';
+        return;
+      }
+
+      const totalQuantity = data.reduce((acc, item) => acc + item.quantity, 0);
+      const totalAmount = data.reduce((acc, item) => acc + item.amount, 0);
+      const topPackage = data[0];
+      const max = Math.max(...data.map(item => item.quantity), 1);
+
+      summary.innerHTML = [
+        ['Fotos vendidas', num.format(totalQuantity)],
+        ['Paquete mas comprado', topPackage.label],
+        ['Cantidad del paquete', num.format(topPackage.quantity)],
+        ['Total fotos', money.format(totalAmount)],
+      ].map(([label, value]) => '<div class="slot-stat"><span class="label">' + esc(label) + '</span><strong>' + esc(value) + '</strong></div>').join('');
+
+      bars.innerHTML = '<div class="slot-row slot-head"><div>Paquete</div><div></div><div>Cantidad</div><div>Total</div></div>' +
+        data.map(item => (
+          '<div class="slot-row"><div class="bar-label" title="' + esc(item.label) + '">' + esc(item.label) +
+          '</div><div class="bar-track"><div class="bar" style="width:' + Math.max(2, item.quantity / max * 100) +
+          '%"></div></div><div class="bar-value">' + num.format(item.quantity) + '</div><div class="bar-value">' +
+          money.format(item.amount) + '</div></div>'
+        )).join('');
+    }
+
+    function renderConversion(rows) {
+      const summary = document.querySelector('#conversionSummary');
+      const totalBracelets = rows.reduce((acc, row) => (
+        isBraceletItem(row) ? acc + toNumber(row[fields.cantidad]) : acc
+      ), 0);
+      const standardKids = rows.reduce((acc, row) => (
+        isStandardOrKidsBracelet(row) ? acc + toNumber(row[fields.cantidad]) : acc
+      ), 0);
+      const otherBracelets = Math.max(0, totalBracelets - standardKids);
+      const conversionRate = totalBracelets ? otherBracelets / totalBracelets * 100 : 0;
+
+      summary.innerHTML = [
+        ['Tasa de conversion', percent(conversionRate)],
+        ['Standard + Kids', num.format(standardKids)],
+        ['Full Pass, Full Day y Premium Kids', num.format(otherBracelets)],
+        ['Total brazaletes', num.format(totalBracelets)],
+      ].map(([label, value]) => '<div class="slot-stat"><span class="label">' + esc(label) + '</span><strong>' + esc(value) + '</strong></div>').join('');
+    }
+
     function normalizeTimeSlot(value) {
       const text = String(value || '').trim();
       const match = text.match(/(\d{1,2})[:.](\d{2})(?::\d{2})?\s*-\s*(\d{1,2})[:.](\d{2})(?::\d{2})?/);
@@ -686,6 +804,43 @@
       )).join('');
       bars.innerHTML = '<div class="slot-row slot-head"><div>Horario</div><div></div><div>Cantidad</div><div>Total</div></div>' +
         bars.innerHTML + '<div class="empty">Total por horarios: ' + num.format(totalQuantity) + ' items</div>';
+    }
+
+    function renderSelectedTimeSlot(rows) {
+      const data = timeSlotData(rows);
+      const summary = document.querySelector('#selectedSlotSummary');
+      const currentValue = timeSlotSelect.value;
+
+      timeSlotSelect.innerHTML = '<option value="">Selecciona un horario</option>' + data.map(item => (
+        '<option value="' + esc(item.label) + '">' + esc(item.label) + '</option>'
+      )).join('');
+
+      if (data.some(item => item.label === currentValue)) {
+        timeSlotSelect.value = currentValue;
+      } else if (data.length) {
+        timeSlotSelect.value = data[0].label;
+      }
+
+      if (!data.length || !timeSlotSelect.value) {
+        summary.innerHTML = '<div class="empty">No hay horarios para esta vista.</div>';
+        return;
+      }
+
+      const selectedRows = rows.filter(row => normalizeTimeSlot(row[fields.horario]) === timeSlotSelect.value);
+      const totalQuantity = sum(selectedRows, fields.cantidad);
+      const onlineQuantity = selectedRows.reduce((acc, row) => (
+        isOnlineSale(row) ? acc + toNumber(row[fields.cantidad]) : acc
+      ), 0);
+      const physicalQuantity = totalQuantity - onlineQuantity;
+      const totalAmount = sum(selectedRows, fields.total);
+
+      summary.innerHTML = [
+        ['Horario seleccionado', timeSlotSelect.value],
+        ['Cantidad vendida', num.format(totalQuantity)],
+        ['Venta online', num.format(onlineQuantity)],
+        ['Venta fisica', num.format(physicalQuantity)],
+        ['Total vendido', money.format(totalAmount)],
+      ].map(([label, value]) => '<div class="slot-stat"><span class="label">' + esc(label) + '</span><strong>' + esc(value) + '</strong></div>').join('');
     }
 
     function normalizeDate(value) {
@@ -878,7 +1033,10 @@
       renderKpis(rows);
       renderBars('#paymentBars', groupSum(rows, fields.metodo, metric), metric);
       renderBars('#productBars', selectedItems(rows, metric), metric);
+      renderPhotoPackages(rows);
+      renderConversion(rows);
       renderTimeSlots(rows);
+      renderSelectedTimeSlot(rows);
       renderBracelets(rows);
       renderBars('#vendorBars', groupSum(rows, fields.vendedor, metric), metric);
       renderBars('#statusBars', groupSum(rows, fields.pago, metric), metric);
@@ -889,6 +1047,7 @@
     sheetFilter.addEventListener('change', render);
     searchBox.addEventListener('input', render);
     buyerSearchBox.addEventListener('input', render);
+    timeSlotSelect.addEventListener('change', render);
     refreshBtn.addEventListener('click', loadAll);
     loadAll();
   </script>
