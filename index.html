@@ -193,6 +193,37 @@
       margin-top: 5px;
       font-size: 20px;
     }
+    .slot-summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(130px, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .slot-stat {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 12px;
+      background: #fbfcfd;
+    }
+    .slot-stat strong {
+      display: block;
+      margin-top: 5px;
+      font-size: 20px;
+    }
+    .slot-row {
+      display: grid;
+      grid-template-columns: minmax(120px, 170px) 1fr 86px 96px;
+      gap: 10px;
+      align-items: center;
+      min-height: 34px;
+      font-size: 13px;
+    }
+    .slot-head {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
     .panel {
       padding: 18px;
       min-width: 0;
@@ -303,11 +334,14 @@
       .goal-panel { grid-template-columns: 1fr; }
       .goal-side { text-align: left; }
       .buyer-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .slot-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 560px) {
       .kpis { grid-template-columns: 1fr; }
       select, input, button { min-width: 100%; }
       .bar-row { grid-template-columns: 1fr; gap: 5px; margin-bottom: 12px; }
+      .slot-row { grid-template-columns: 1fr; gap: 5px; margin-bottom: 12px; }
+      .slot-summary { grid-template-columns: 1fr; }
       .bar-value { text-align: left; }
     }
   </style>
@@ -350,6 +384,11 @@
       <article class="panel">
         <h2>Items</h2>
         <div id="productBars"></div>
+      </article>
+      <article class="panel wide">
+        <h2>Ventas por horario reservado</h2>
+        <div class="slot-summary" id="slotSummary"></div>
+        <div id="timeSlotBars"></div>
       </article>
       <article class="buyer-panel wide">
         <h2>Buscar comprador</h2>
@@ -414,6 +453,8 @@
       cliente: 'Cliente',
       metodo: 'Método de pago',
       pago: 'Pago',
+      horario: 'Horario',
+      comisionista: 'Comisionista',
     };
 
     let allRows = [];
@@ -570,6 +611,81 @@
         }, 0);
         return { label, value };
       });
+    }
+
+    function normalizeTimeSlot(value) {
+      const text = String(value || '').trim();
+      const match = text.match(/(\d{1,2})[:.](\d{2})(?::\d{2})?\s*-\s*(\d{1,2})[:.](\d{2})(?::\d{2})?/);
+      if (!match) return text && text !== '-' ? text : '';
+      const start = match[1].padStart(2, '0') + ':' + match[2];
+      const end = match[3].padStart(2, '0') + ':' + match[4];
+      return start + ' - ' + end;
+    }
+
+    function slotStartMinutes(slot) {
+      const match = String(slot || '').match(/^(\d{1,2}):(\d{2})/);
+      if (!match) return Number.MAX_SAFE_INTEGER;
+      return Number(match[1]) * 60 + Number(match[2]);
+    }
+
+    function isOnlineSale(row) {
+      return [fields.metodo, fields.comisionista, fields.categoria].some(key => (
+        String(row[key] || '').toUpperCase().includes('ONLINE')
+      ));
+    }
+
+    function timeSlotData(rows) {
+      const map = new Map();
+      rows.forEach(row => {
+        const slot = normalizeTimeSlot(row[fields.horario]);
+        if (!slot) return;
+        if (!map.has(slot)) {
+          map.set(slot, { label: slot, quantity: 0, amount: 0, onlineQuantity: 0, physicalQuantity: 0, orders: new Set() });
+        }
+        const item = map.get(slot);
+        const quantity = toNumber(row[fields.cantidad]);
+        item.quantity += quantity;
+        item.amount += toNumber(row[fields.total]);
+        if (isOnlineSale(row)) {
+          item.onlineQuantity += quantity;
+        } else {
+          item.physicalQuantity += quantity;
+        }
+        if (row[fields.pedido]) item.orders.add(row[fields.pedido]);
+      });
+      return [...map.values()].sort((a, b) => slotStartMinutes(a.label) - slotStartMinutes(b.label));
+    }
+
+    function renderTimeSlots(rows) {
+      const data = timeSlotData(rows);
+      const summary = document.querySelector('#slotSummary');
+      const bars = document.querySelector('#timeSlotBars');
+
+      if (!data.length) {
+        summary.innerHTML = '<div class="empty">Sin horarios reservados para esta vista.</div>';
+        bars.innerHTML = '';
+        return;
+      }
+
+      const totalQuantity = data.reduce((acc, item) => acc + item.quantity, 0);
+      const strongest = data.reduce((best, item) => item.quantity > best.quantity ? item : best, data[0]);
+      const max = Math.max(...data.map(item => item.quantity), 1);
+
+      summary.innerHTML = [
+        ['Franja mas fuerte', strongest.label],
+        ['Cantidad en esa franja', num.format(strongest.quantity)],
+        ['Venta online', num.format(strongest.onlineQuantity)],
+        ['Venta fisica', num.format(strongest.physicalQuantity)],
+      ].map(([label, value]) => '<div class="slot-stat"><span class="label">' + esc(label) + '</span><strong>' + esc(value) + '</strong></div>').join('');
+
+      bars.innerHTML = data.map(item => (
+        '<div class="slot-row"><div class="bar-label" title="' + esc(item.label) + '">' + esc(item.label) +
+        '</div><div class="bar-track"><div class="bar" style="width:' + Math.max(2, item.quantity / max * 100) +
+        '%"></div></div><div class="bar-value">' + num.format(item.quantity) + '</div><div class="bar-value">' +
+        money.format(item.amount) + '</div></div>'
+      )).join('');
+      bars.innerHTML = '<div class="slot-row slot-head"><div>Horario</div><div></div><div>Cantidad</div><div>Total</div></div>' +
+        bars.innerHTML + '<div class="empty">Total por horarios: ' + num.format(totalQuantity) + ' items</div>';
     }
 
     function normalizeDate(value) {
@@ -762,6 +878,7 @@
       renderKpis(rows);
       renderBars('#paymentBars', groupSum(rows, fields.metodo, metric), metric);
       renderBars('#productBars', selectedItems(rows, metric), metric);
+      renderTimeSlots(rows);
       renderBracelets(rows);
       renderBars('#vendorBars', groupSum(rows, fields.vendedor, metric), metric);
       renderBars('#statusBars', groupSum(rows, fields.pago, metric), metric);
