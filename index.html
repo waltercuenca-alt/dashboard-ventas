@@ -287,9 +287,6 @@
   <main>
     <section class="toolbar">
       <select id="sheetFilter"></select>
-      <select id="metricFilter">
-        <option value="Cantidad Item">Cantidad</option>
-      </select>
       <input id="searchBox" placeholder="Buscar cliente, item o usuario">
       <button id="refreshBtn">Actualizar ahora</button>
     </section>
@@ -375,7 +372,6 @@
     const money = new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN', maximumFractionDigits: 0 });
     const num = new Intl.NumberFormat('es-PE', { maximumFractionDigits: 1 });
     const sheetFilter = document.querySelector('#sheetFilter');
-    const metricFilter = document.querySelector('#metricFilter');
     const searchBox = document.querySelector('#searchBox');
     const refreshBtn = document.querySelector('#refreshBtn');
     const statusDot = document.querySelector('#statusDot');
@@ -664,7 +660,7 @@
 
     function render() {
       const rows = filteredRows();
-      const metric = metricFilter.value;
+      const metric = fields.cantidad;
       renderKpis(rows);
       renderBars('#paymentBars', groupSum(rows, fields.metodo, metric), metric);
       renderBars('#productBars', selectedItems(rows, metric), metric);
@@ -675,7 +671,6 @@
     }
 
     sheetFilter.addEventListener('change', render);
-    metricFilter.addEventListener('change', render);
     searchBox.addEventListener('input', render);
     refreshBtn.addEventListener('click', loadAll);
     loadAll();
