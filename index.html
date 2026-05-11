@@ -18,12 +18,14 @@
       --shadow: 0 14px 36px rgba(31, 42, 55, .08);
     }
     * { box-sizing: border-box; }
+    html { overflow-x: hidden; }
     body {
       margin: 0;
       background: var(--bg);
       color: var(--ink);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       letter-spacing: 0;
+      overflow-x: hidden;
     }
     header {
       padding: 28px clamp(18px, 4vw, 48px) 18px;
@@ -192,6 +194,7 @@
       display: block;
       margin-top: 5px;
       font-size: 20px;
+      overflow-wrap: anywhere;
     }
     .slot-summary {
       display: grid;
@@ -209,6 +212,7 @@
       display: block;
       margin-top: 5px;
       font-size: 20px;
+      overflow-wrap: anywhere;
     }
     .slot-row {
       display: grid;
@@ -242,6 +246,7 @@
       font-size: 17px;
       margin: 0 0 14px;
       letter-spacing: 0;
+      line-height: 1.25;
     }
     .wide { grid-column: 1 / -1; }
     .bar-row {
@@ -330,6 +335,7 @@
       overflow: auto;
       border: 1px solid var(--line);
       border-radius: 8px;
+      -webkit-overflow-scrolling: touch;
     }
     .empty, .error {
       color: var(--muted);
@@ -346,13 +352,52 @@
       .buyer-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .slot-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
+    @media (max-width: 720px) {
+      header { padding: 22px 16px 16px; }
+      main { padding: 16px 14px 32px; }
+      .toolbar { gap: 10px; }
+      .panel, .buyer-panel { padding: 14px; }
+      .kpi { padding: 14px; min-height: 86px; }
+      .value { white-space: normal; }
+      table { min-width: 760px; }
+      .compact table { min-width: 680px; }
+    }
     @media (max-width: 560px) {
+      h1 { font-size: 28px; }
+      .sub {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 6px;
+        font-size: 13px;
+      }
       .kpis { grid-template-columns: 1fr; }
       select, input, button { min-width: 100%; }
-      .bar-row { grid-template-columns: 1fr; gap: 5px; margin-bottom: 12px; }
-      .slot-row { grid-template-columns: 1fr; gap: 5px; margin-bottom: 12px; }
+      .bar-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 6px;
+        margin-bottom: 13px;
+      }
+      .bar-row .bar-label {
+        grid-column: 1 / -1;
+        white-space: normal;
+      }
+      .bar-row .bar-track { grid-column: 1 / -1; }
+      .slot-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px 10px;
+        margin-bottom: 13px;
+      }
+      .slot-row .bar-label {
+        grid-column: 1 / -1;
+        white-space: normal;
+      }
+      .slot-row .bar-track { grid-column: 1 / -1; }
+      .slot-head { display: none; }
       .slot-summary { grid-template-columns: 1fr; }
+      .buyer-summary { grid-template-columns: 1fr; }
+      .slot-stat strong { font-size: 19px; }
       .bar-value { text-align: left; }
+      th, td { padding: 9px 8px; }
     }
   </style>
 </head>
