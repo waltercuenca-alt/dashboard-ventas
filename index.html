@@ -414,7 +414,7 @@
 
   <main>
     <section class="toolbar">
-      <select id="sheetFilter"></select>
+      <select id="dateFilter"></select>
       <input id="searchBox" placeholder="Buscar cliente, item o usuario">
       <button id="refreshBtn">Actualizar ahora</button>
     </section>
@@ -500,15 +500,16 @@
 
   <script>
     const CONFIG = {
-      spreadsheetId: '1V9mpNdTygNImjSzdKRNpGfwSdnYyow8Q1wFiaWz_8Sg',
+      spreadsheetId: '13MTcF50BDLZ3Prn7HXBGBjDg8c-6ghznpXzxACh9EwE',
+      sheetName: 'BASE_CONSOLIDADA',
       refreshMs: 30 * 60 * 1000,
       dailyGoal: 0,
       sheets: [
-        { name: '2 mayo', gid: '1204926603' },
-        { name: '25 abril', gid: '1491474143' },
-        { name: '9 mayo', gid: '1419003531' },
+        { name: 'BASE_CONSOLIDADA' },
       ],
     };
+    const SHEET_URL = 'https://docs.google.com/spreadsheets/d/' + CONFIG.spreadsheetId +
+      '/gviz/tq?sheet=' + encodeURIComponent(CONFIG.sheetName) + '&tqx=out:json';
 
     const fields = {
       fecha: 'Emisión',
@@ -534,7 +535,7 @@
 
     const money = new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN', maximumFractionDigits: 0 });
     const num = new Intl.NumberFormat('es-PE', { maximumFractionDigits: 1 });
-    const sheetFilter = document.querySelector('#sheetFilter');
+    const dateFilter = document.querySelector('#dateFilter');
     const searchBox = document.querySelector('#searchBox');
     const buyerSearchBox = document.querySelector('#buyerSearchBox');
     const timeSlotSelect = document.querySelector('#timeSlotSelect');
@@ -543,7 +544,7 @@
     const statusText = document.querySelector('#statusText');
     const lastUpdate = document.querySelector('#lastUpdate');
 
-    sheetFilter.innerHTML = '<option value="Todas">Todas las hojas</option>' + CONFIG.sheets.map(s => '<option>' + esc(s.name) + '</option>').join('');
+    dateFilter.innerHTML = '<option value="all">Todas las fechas</option>';
 
     function esc(value) {
       return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
@@ -572,57 +573,119 @@
       statusText.textContent = text;
     }
 
-    function uniqueCallbackName() {
-      return '__sheetCallback_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    function parseSearchDate(value) {
+      if (!value) return null;
+      if (value instanceof Date && !Number.isNaN(value)) return value;
+      const text = String(value).trim();
+
+      let match = text.match(/^Date\((\d{4}),(\d{1,2}),(\d{1,2})\)$/);
+      if (match) return new Date(Number(match[1]), Number(match[2]), Number(match[3]));
+
+      match = text.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/);
+      if (match) {
+        let year = Number(match[3]);
+        if (year < 100) year += year >= 50 ? 1900 : 2000;
+        return new Date(year, Number(match[2]) - 1, Number(match[1]));
+      }
+
+      match = text.match(/^(\d{1,2})-(\d{1,2})-(\d{2}|\d{4})$/);
+      if (match) {
+        let year = Number(match[3]);
+        if (year < 100) year += year >= 50 ? 1900 : 2000;
+        return new Date(year, Number(match[2]) - 1, Number(match[1]));
+      }
+
+      match = text.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+      if (match) return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+
+      return null;
+    }
+
+    function normalizeSearchDate(value) {
+      const date = parseSearchDate(value);
+      if (!date || Number.isNaN(date.getTime())) return '';
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = String(date.getFullYear()).slice(-2);
+      return day + '/' + month + '/' + year;
+    }
+
+    function getRowDate(row) {
+      return row['Fecha ISO'] ||
+        row['Fecha Exacta'] ||
+        row['Fecha'] ||
+        row['Emisión'] ||
+        row['Emision'] ||
+        row['Fecha Reservada'] ||
+        row['FechaReservada'] ||
+        row[fields.fecha] ||
+        '';
     }
 
     function loadSheet(sheet) {
-      return new Promise((resolve, reject) => {
-        const cb = uniqueCallbackName();
-        const script = document.createElement('script');
-        const params = new URLSearchParams({
-          gid: sheet.gid,
-          headers: '1',
-          tqx: 'responseHandler:' + cb,
-          cacheBust: Date.now().toString(),
-        });
-        const timeoutId = window.setTimeout(() => {
-          cleanup();
-          reject(new Error('Tiempo agotado leyendo ' + sheet.name));
-        }, 20000);
-
-        function cleanup() {
-          window.clearTimeout(timeoutId);
-          delete window[cb];
-          script.remove();
-        }
-
-        window[cb] = (response) => {
-          cleanup();
-          if (response?.status === 'error') {
-            reject(new Error(response.errors?.[0]?.detailed_message || 'No se pudo leer ' + sheet.name));
-            return;
-          }
+      return fetch(SHEET_URL + '&cacheBust=' + Date.now())
+        .then(response => {
+          if (!response.ok) throw new Error('No se pudo leer ' + sheet.name + ': ' + response.status);
+          return response.text();
+        })
+        .then(text => {
+          const jsonText = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+          const response = JSON.parse(jsonText);
           const table = response.table;
           const headers = table.cols.map((col, idx) => col.label || `Columna ${idx + 1}`);
-          const rows = table.rows.map((row) => {
+          return table.rows.map((row) => {
             const obj = { hoja: sheet.name };
             headers.forEach((header, index) => {
               const cell = row.c[index];
               obj[header] = cell ? (cell.f ?? cell.v ?? '') : '';
             });
+            const fechaOriginal = getRowDate(obj);
+            obj._fechaOriginal = fechaOriginal;
+            obj._fechaNormalizada = normalizeSearchDate(fechaOriginal);
             return obj;
           }).filter(row => Object.keys(row).some(key => key !== 'hoja' && row[key] !== ''));
-          resolve(rows);
-        };
+        });
+    }
 
-        script.onerror = () => {
-          cleanup();
-          reject(new Error('No se pudo conectar con Google Sheet. Revisa que el archivo tenga acceso para quien tenga el enlace.'));
-        };
-        script.src = 'https://docs.google.com/spreadsheets/d/' + CONFIG.spreadsheetId + '/gviz/tq?' + params.toString();
-        document.head.appendChild(script);
+    function cargarOpcionesFechas(datos) {
+      if (!dateFilter) return;
+      const current = dateFilter.value;
+      dateFilter.innerHTML = '<option value="all">Todas las fechas</option>';
+      const fechas = [...new Set(
+        datos
+          .map(row => row._fechaNormalizada || row._fecha)
+          .filter(Boolean)
+      )].sort((a, b) => {
+        const da = parseSearchDate(a);
+        const db = parseSearchDate(b);
+        return (da?.getTime() || 0) - (db?.getTime() || 0);
       });
+
+      fechas.forEach(fecha => {
+        const option = document.createElement('option');
+        option.value = fecha;
+        option.textContent = fecha;
+        dateFilter.appendChild(option);
+      });
+
+      if (fechas.includes(current)) dateFilter.value = current;
+      console.log('Fechas disponibles:', fechas);
+    }
+
+    function aplicarFiltroFecha(datos) {
+      const fechaSeleccionada = dateFilter ? dateFilter.value : 'all';
+      if (fechaSeleccionada === 'all') {
+        console.log('Fecha seleccionada:', fechaSeleccionada);
+        console.log('Filas filtradas:', datos.length);
+        return datos;
+      }
+      const datosFiltrados = datos.filter(row => {
+        const fechaFila = row._fechaNormalizada || row._fecha;
+        return fechaFila === fechaSeleccionada;
+      });
+      console.log('Fecha seleccionada:', fechaSeleccionada);
+      console.log('Filas filtradas:', datosFiltrados.length);
+      return datosFiltrados;
     }
 
     async function loadAll() {
@@ -635,6 +698,8 @@
         const groups = await Promise.all(CONFIG.sheets.map(loadSheet));
         const nextRows = groups.flat();
         allRows = nextRows;
+        console.log('Cantidad de filas:', allRows.length);
+        cargarOpcionesFechas(allRows);
         setStatus('ok', 'Datos actualizados');
         lastUpdate.textContent = 'Última actualización: ' + new Date().toLocaleString('es-PE');
         render();
@@ -651,12 +716,13 @@
     }
 
     function filteredRows() {
-      const sheet = sheetFilter.value;
-      const term = searchBox.value.trim().toLowerCase();
-      return allRows.filter(row => {
-        const sheetOk = sheet === 'Todas' || row.hoja === sheet;
-        if (!sheetOk) return false;
+      const rawTerm = searchBox.value.trim();
+      const term = rawTerm.toLowerCase();
+      const dateTerm = normalizeSearchDate(rawTerm);
+      const rowsByDate = aplicarFiltroFecha(allRows);
+      return rowsByDate.filter(row => {
         if (!term) return true;
+        if (dateTerm) return row._fechaNormalizada === dateTerm;
         return [fields.cliente, fields.producto, fields.vendedor, fields.metodo].some(key => String(row[key] || '').toLowerCase().includes(term));
       });
     }
@@ -889,10 +955,7 @@
     }
 
     function normalizeDate(value) {
-      const text = String(value || '').trim();
-      const match = text.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-      if (!match) return text || 'Sin fecha';
-      return match[1].padStart(2, '0') + '/' + match[2].padStart(2, '0') + '/' + match[3];
+      return normalizeSearchDate(value) || String(value || '').trim() || 'Sin fecha';
     }
 
     function braceletRows(rows) {
@@ -902,7 +965,7 @@
       rows.forEach(row => {
         const item = String(row[fields.producto] || '').trim();
         if (!item.toUpperCase().includes('PULSERA')) return;
-        const date = normalizeDate(row[fields.fecha]);
+        const date = normalizeDate(getRowDate(row));
         const qty = toNumber(row[fields.cantidad]);
         if (!byDate.has(date)) byDate.set(date, new Map());
         const day = byDate.get(date);
@@ -917,9 +980,9 @@
           return { date, values, total };
         })
         .sort((a, b) => {
-          const [da, ma, ya] = a.date.split('/').map(Number);
-          const [db, mb, yb] = b.date.split('/').map(Number);
-          return new Date(ya, ma - 1, da) - new Date(yb, mb - 1, db);
+          const dateA = parseSearchDate(a.date);
+          const dateB = parseSearchDate(b.date);
+          return (dateA?.getTime() || 0) - (dateB?.getTime() || 0);
         });
 
       return { orderedTypes, data };
@@ -1089,7 +1152,7 @@
       renderBuyerSearch(rows);
     }
 
-    sheetFilter.addEventListener('change', render);
+    dateFilter.addEventListener('change', render);
     searchBox.addEventListener('input', render);
     buyerSearchBox.addEventListener('input', render);
     timeSlotSelect.addEventListener('change', render);
