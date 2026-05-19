@@ -93,6 +93,297 @@
       gap: 12px;
       margin-bottom: 18px;
     }
+    .photo-analysis {
+      margin-bottom: 18px;
+      padding: 18px;
+      background: #172026;
+      color: #fff;
+      border: 1px solid #25323d;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .photo-analysis h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+    .photo-kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(150px, 1fr));
+      gap: 12px;
+    }
+    #comparisonDeltaKpis {
+      margin-top: 12px;
+    }
+    .photo-kpi {
+      min-height: 104px;
+      padding: 15px;
+      background: #202b34;
+      border: 1px solid #33424e;
+      border-radius: 8px;
+    }
+    .photo-kpi .label {
+      color: #aeb9c3;
+    }
+    .photo-kpi .value {
+      color: #fff;
+    }
+    .recommendation-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .recommendation-card {
+      min-height: 152px;
+      padding: 15px;
+      background: #202b34;
+      border: 1px solid #33424e;
+      border-radius: 8px;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .recommendation-card:hover {
+      transform: translateY(-2px);
+      border-color: #4f8df7;
+      background: #24313b;
+    }
+    .recommendation-priority {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+      color: #c9d2da;
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+    .recommendation-card h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      letter-spacing: 0;
+      line-height: 1.25;
+    }
+    .recommendation-card p {
+      margin: 0;
+      color: #c9d2da;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .simulator-controls {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .sim-control {
+      padding: 14px;
+      background: #202b34;
+      border: 1px solid #33424e;
+      border-radius: 8px;
+    }
+    .sim-control label {
+      display: block;
+      margin-bottom: 8px;
+      color: #aeb9c3;
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+    .sim-control input[type="number"] {
+      min-width: 100%;
+      width: 100%;
+      background: #172026;
+      color: #fff;
+      border-color: #33424e;
+    }
+    .sim-control input[type="range"] {
+      width: 100%;
+      min-width: 100%;
+      height: 24px;
+      padding: 0;
+      accent-color: #4f8df7;
+    }
+    .sim-control strong {
+      display: block;
+      color: #fff;
+      font-size: 18px;
+    }
+    .sim-recommendation {
+      margin-top: 14px;
+      padding: 14px;
+      background: #202b34;
+      border: 1px solid #33424e;
+      border-radius: 8px;
+      color: #c9d2da;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .alert-subtitle {
+      margin: -6px 0 14px;
+      color: #c9d2da;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .executive-card {
+      padding: 18px;
+      background: #202b34;
+      border: 1px solid #33424e;
+      border-radius: 8px;
+    }
+    .executive-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .executive-head h3 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+    .executive-copy {
+      min-width: 150px;
+      height: 36px;
+      background: #356ac3;
+      border-color: #356ac3;
+    }
+    .executive-text {
+      margin: 0 0 14px;
+      color: #d8e0e7;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .executive-actions {
+      display: grid;
+      gap: 8px;
+      margin: 0 0 14px;
+      padding: 0;
+      list-style: none;
+    }
+    .executive-actions li {
+      color: #e8edf2;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+    .executive-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 10px;
+      background: #172026;
+      border: 1px solid #33424e;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .weekend-status {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 8px 10px;
+      background: #172026;
+      border: 1px solid #33424e;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .weekend-copy {
+      color: #d8e0e7;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    .comparison-pair {
+      display: grid;
+      gap: 10px;
+    }
+    .comparison-pair-row {
+      display: grid;
+      grid-template-columns: minmax(110px, 150px) 1fr 1fr;
+      gap: 10px;
+      align-items: center;
+      color: #e8edf2;
+      font-size: 13px;
+    }
+    .comparison-pair-label {
+      color: #c9d2da;
+      font-weight: 800;
+    }
+    .comparison-bar-box {
+      min-width: 0;
+    }
+    .comparison-bar-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+      color: #c9d2da;
+      font-size: 12px;
+    }
+    .photo-note {
+      margin: 14px 0 0;
+      color: #c9d2da;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .photo-chart-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .opportunity-chart-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .evolution-chart-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .evolution-line {
+      width: 100%;
+      min-height: 150px;
+      border: 1px solid #33424e;
+      border-radius: 8px;
+      background: #202b34;
+      overflow: hidden;
+    }
+    .evolution-line svg {
+      display: block;
+      width: 100%;
+      height: 150px;
+    }
+    .evolution-line text {
+      fill: #c9d2da;
+      font-size: 11px;
+      font-family: inherit;
+    }
+    .evolution-line polyline {
+      fill: none;
+      stroke: #4f8df7;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .evolution-line circle {
+      fill: #ffffff;
+      stroke: #4f8df7;
+      stroke-width: 2;
+    }
+    .photo-chart h3 {
+      margin: 0 0 12px;
+      font-size: 15px;
+      letter-spacing: 0;
+    }
+    .photo-analysis .bar-row {
+      color: #e8edf2;
+    }
+    .photo-analysis .bar-label,
+    .photo-analysis .bar-value {
+      color: #e8edf2;
+    }
+    .photo-analysis .bar-track {
+      background: #2d3a44;
+    }
     .goal-panel {
       display: grid;
       grid-template-columns: minmax(180px, 260px) 1fr minmax(110px, 150px);
@@ -345,6 +636,11 @@
     .error { color: var(--rose); }
     @media (max-width: 980px) {
       .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .photo-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .simulator-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .photo-chart-grid { grid-template-columns: 1fr; }
+      .opportunity-chart-grid { grid-template-columns: 1fr; }
+      .evolution-chart-grid { grid-template-columns: 1fr; }
       .grid { grid-template-columns: 1fr; }
       .sheet-bars { grid-template-columns: 1fr; }
       .goal-panel { grid-template-columns: 1fr; }
@@ -371,6 +667,10 @@
         font-size: 13px;
       }
       .kpis { grid-template-columns: 1fr; }
+      .photo-analysis { padding: 14px; }
+      .photo-kpis { grid-template-columns: 1fr; }
+      .recommendation-grid { grid-template-columns: 1fr; }
+      .simulator-controls { grid-template-columns: 1fr; }
       select, input, button { min-width: 100%; }
       .bar-row {
         grid-template-columns: minmax(0, 1fr) auto;
@@ -397,6 +697,7 @@
       .buyer-summary { grid-template-columns: 1fr; }
       .slot-stat strong { font-size: 19px; }
       .bar-value { text-align: left; }
+      .executive-head { display: grid; }
       th, td { padding: 9px 8px; }
     }
   </style>
@@ -420,6 +721,139 @@
     </section>
 
     <section class="kpis" id="kpis"></section>
+    <section class="photo-analysis" id="photoAnalysis">
+      <h2>📸 Análisis Fotografía</h2>
+      <div class="photo-kpis" id="photoAnalysisKpis"></div>
+      <p class="photo-note">Esta sección estima cuánto aporta la fotografía al valor percibido del FULL PASS comparando la conversión real contra una base histórica del 15%.</p>
+    </section>
+    <section class="photo-analysis" id="photoPerformance">
+      <h2>📷 Rendimiento Fotografía</h2>
+      <div class="photo-kpis" id="photoPerformanceKpis"></div>
+      <div class="photo-chart-grid">
+        <div class="photo-chart">
+          <h3>Ventas fotografía por paquete</h3>
+          <div id="photoPackagePerformanceBars"></div>
+        </div>
+        <div class="photo-chart">
+          <h3>Ventas fotografía por fecha</h3>
+          <div id="photoDatePerformanceBars"></div>
+        </div>
+      </div>
+    </section>
+    <section class="photo-analysis" id="scheduleOpportunities">
+      <h2>⏰ Horarios y Oportunidades de Venta</h2>
+      <div class="photo-kpis" id="scheduleOpportunityKpis"></div>
+      <div class="photo-chart-grid opportunity-chart-grid">
+        <div class="photo-chart">
+          <h3>Ventas totales por horario</h3>
+          <div id="scheduleTotalBars"></div>
+        </div>
+        <div class="photo-chart">
+          <h3>Full Pass por horario</h3>
+          <div id="scheduleFullPassBars"></div>
+        </div>
+        <div class="photo-chart">
+          <h3>Fotografía por horario</h3>
+          <div id="schedulePhotoBars"></div>
+        </div>
+      </div>
+    </section>
+    <section class="photo-analysis" id="comparisonEvolution">
+      <h2>📈 Comparativa y Evolución</h2>
+      <div class="photo-kpis" id="comparisonEvolutionKpis"></div>
+      <div class="photo-kpis" id="comparisonDeltaKpis"></div>
+      <div class="photo-chart-grid evolution-chart-grid">
+        <div class="photo-chart">
+          <h3>Evolución de ventas totales por día</h3>
+          <div class="evolution-line" id="salesEvolutionLine"></div>
+        </div>
+        <div class="photo-chart">
+          <h3>Evolución de Full Pass por día</h3>
+          <div id="fullPassEvolutionBars"></div>
+        </div>
+        <div class="photo-chart">
+          <h3>Evolución de conversión Full Pass</h3>
+          <div class="evolution-line" id="conversionEvolutionLine"></div>
+        </div>
+        <div class="photo-chart">
+          <h3>Evolución de fotografía</h3>
+          <div id="photoEvolutionBars"></div>
+        </div>
+      </div>
+    </section>
+    <section class="photo-analysis" id="smartRecommendations">
+      <h2>🧠 Recomendaciones Inteligentes</h2>
+      <div class="recommendation-grid" id="smartRecommendationCards"></div>
+    </section>
+    <section class="photo-analysis" id="scenarioSimulator">
+      <h2>🎯 Simulador y Predicción</h2>
+      <div class="simulator-controls">
+        <div class="sim-control">
+          <label for="simPeople">Personas proyectadas</label>
+          <input id="simPeople" type="number" min="0" step="1">
+        </div>
+        <div class="sim-control">
+          <label for="simFullPassConversion">Conversión Full Pass esperada</label>
+          <input id="simFullPassConversion" type="range" min="10" max="40" step="0.5">
+          <strong id="simFullPassConversionValue">0%</strong>
+        </div>
+        <div class="sim-control">
+          <label for="simPhotoTicket">Ticket fotografía esperado</label>
+          <input id="simPhotoTicket" type="number" min="0" step="1">
+        </div>
+        <div class="sim-control">
+          <label for="simPhotoPercent">% clientes Full Pass que compran foto</label>
+          <input id="simPhotoPercent" type="range" min="0" max="100" step="1">
+          <strong id="simPhotoPercentValue">0%</strong>
+        </div>
+      </div>
+      <div class="photo-kpis" id="scenarioSimulatorKpis"></div>
+      <div class="photo-chart-grid">
+        <div class="photo-chart">
+          <h3>Actual vs Proyectado</h3>
+          <div id="scenarioComparisonBars"></div>
+        </div>
+        <div class="photo-chart">
+          <h3>Lectura del escenario</h3>
+          <div class="sim-recommendation" id="scenarioRecommendation"></div>
+        </div>
+      </div>
+    </section>
+    <section class="photo-analysis" id="intelligentAlerts">
+      <h2>🚨 Centro de Alertas Inteligentes</h2>
+      <p class="alert-subtitle">El sistema detecta automáticamente oportunidades, riesgos y hallazgos según los datos filtrados.</p>
+      <div class="recommendation-grid" id="intelligentAlertCards"></div>
+    </section>
+    <section class="photo-analysis" id="executiveSummary">
+      <h2>👨‍💼 Resumen Ejecutivo Automático</h2>
+      <p class="alert-subtitle">Lectura gerencial automática basada en los datos filtrados.</p>
+      <div class="executive-card">
+        <div class="executive-head">
+          <h3 id="executiveSummaryTitle">Resumen</h3>
+          <button class="executive-copy" id="copyExecutiveSummary" type="button">Copiar resumen</button>
+        </div>
+        <p class="executive-text" id="executiveSummaryText"></p>
+        <ul class="executive-actions" id="executiveSummaryActions"></ul>
+        <span class="executive-badge" id="executiveSummaryDiagnosis"></span>
+      </div>
+    </section>
+    <section class="photo-analysis" id="weekendComparator">
+      <h2>📅 Comparador Inteligente de Fines de Semana</h2>
+      <p class="alert-subtitle">Comparación automática entre días equivalentes para entender el rendimiento real.</p>
+      <div id="weekendComparableStatus" class="weekend-status"></div>
+      <div class="photo-kpis" id="weekendComparatorKpis"></div>
+      <div class="weekend-copy" id="weekendComparatorText"></div>
+      <div class="photo-chart-grid">
+        <div class="photo-chart">
+          <h3>Actual vs Comparable</h3>
+          <div class="comparison-pair" id="weekendComparisonChart"></div>
+        </div>
+        <div class="photo-chart">
+          <h3>Acción recomendada</h3>
+          <div class="sim-recommendation" id="weekendComparatorAction"></div>
+        </div>
+      </div>
+    </section>
     <section class="goal-panel" id="goalPanel">
       <div>
         <div class="goal-title">Meta del día</div>
@@ -538,6 +972,8 @@
     let allRows = [];
     let isLoading = false;
     let timerId = null;
+    let simulatorTouched = false;
+    let simulatorLastDate = '';
 
     const money = new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN', maximumFractionDigits: 0 });
     const num = new Intl.NumberFormat('es-PE', { maximumFractionDigits: 1 });
@@ -549,6 +985,13 @@
     const statusDot = document.querySelector('#statusDot');
     const statusText = document.querySelector('#statusText');
     const lastUpdate = document.querySelector('#lastUpdate');
+    const simPeople = document.querySelector('#simPeople');
+    const simFullPassConversion = document.querySelector('#simFullPassConversion');
+    const simFullPassConversionValue = document.querySelector('#simFullPassConversionValue');
+    const simPhotoTicket = document.querySelector('#simPhotoTicket');
+    const simPhotoPercent = document.querySelector('#simPhotoPercent');
+    const simPhotoPercentValue = document.querySelector('#simPhotoPercentValue');
+    const copyExecutiveSummary = document.querySelector('#copyExecutiveSummary');
 
     dateFilter.innerHTML = '<option value="all">Todas las fechas</option>';
 
@@ -1070,12 +1513,968 @@
       }, 0);
     }
 
-    function renderKpis(rows) {
-      const totalVendido = sum(rows, fields.total);
-      const totalPulseras = rows.reduce((acc, row) => {
+    function totalBracelets(rows) {
+      return rows.reduce((acc, row) => {
         const item = String(row[fields.producto] || '').toUpperCase();
         return item.includes('PULSERA') ? acc + toNumber(row[fields.cantidad]) : acc;
       }, 0);
+    }
+
+    function renderPhotoAnalysis(rows) {
+      const totalPulseras = totalBracelets(rows);
+      const fullPass = braceletQuantity(rows, ['PULSERA FULL PASS']);
+      const conversionReal = totalPulseras ? fullPass / totalPulseras * 100 : 0;
+      const conversionBase = 15;
+      const fullPassEsperados = totalPulseras * (conversionBase / 100);
+      const fullPassExtra = Math.max(0, fullPass - fullPassEsperados);
+      const ingresoExtraEstimado = fullPassExtra * 40;
+
+      console.log('Análisis fotografía:', {
+        totalPulseras,
+        fullPass,
+        conversionReal,
+        fullPassEsperados,
+        fullPassExtra,
+        ingresoExtraEstimado
+      });
+
+      const cards = [
+        ['Conversión Full Pass real', percent(conversionReal)],
+        ['Conversión esperada sin fotografía', percent(conversionBase)],
+        ['Full Pass extra atribuibles al impulso fotografía', num.format(fullPassExtra)],
+        ['Ingreso premium estimado generado por mejora de conversión', money.format(ingresoExtraEstimado)],
+      ];
+
+      document.querySelector('#photoAnalysisKpis').innerHTML = cards.map(([label, value]) => (
+        '<div class="photo-kpi"><div class="label">' + esc(label) + '</div><div class="value">' + esc(value) + '</div></div>'
+      )).join('');
+    }
+
+    function esFotografia(item = '') {
+      const texto = String(item || '').toUpperCase();
+      return texto.includes('FOTO');
+    }
+
+    function photoRows(rows) {
+      return rows.filter(row => esFotografia(row[fields.producto] || row.Item));
+    }
+
+    function photoPackageName(row) {
+      const item = String(row[fields.producto] || row.Item || '').toUpperCase();
+      const unit = toNumber(row['Precio Unitario']) || toNumber(row[fields.total]) / Math.max(toNumber(row[fields.cantidad]), 1);
+      if (unit >= 25 && unit <= 35) return 'Paquete S/30';
+      if (unit >= 45 && unit <= 55) return 'Paquete S/50';
+      if (unit >= 70 && unit <= 90) return 'Paquete S/80';
+      if (item.includes('INDIVIDUAL') || item.includes('UNITARIA')) return 'Foto individual';
+      return 'Foto individual';
+    }
+
+    function groupPhotoPackages(rows) {
+      const map = new Map();
+      rows.forEach(row => {
+        const label = photoPackageName(row);
+        if (!map.has(label)) map.set(label, { label, quantity: 0, amount: 0 });
+        const item = map.get(label);
+        item.quantity += toNumber(row[fields.cantidad]);
+        item.amount += toNumber(row[fields.total]);
+      });
+      const order = ['Paquete S/30', 'Paquete S/50', 'Paquete S/80', 'Foto individual'];
+      return [...map.values()].sort((a, b) => {
+        const orderDiff = order.indexOf(a.label) - order.indexOf(b.label);
+        return orderDiff || b.quantity - a.quantity;
+      });
+    }
+
+    function groupPhotoDates(rows) {
+      const map = new Map();
+      rows.forEach(row => {
+        const date = normalizeDate(getRowDate(row));
+        if (!map.has(date)) map.set(date, { label: date, quantity: 0, amount: 0 });
+        const item = map.get(date);
+        item.quantity += toNumber(row[fields.cantidad]);
+        item.amount += toNumber(row[fields.total]);
+      });
+      return [...map.values()].sort((a, b) => {
+        const da = parseSearchDate(a.label);
+        const db = parseSearchDate(b.label);
+        return (da?.getTime() || 0) - (db?.getTime() || 0);
+      });
+    }
+
+    function renderPhotoDarkBars(id, data, metric) {
+      const el = document.querySelector(id);
+      if (!data.length) {
+        el.innerHTML = '<div class="empty">Sin ventas de fotografía para esta vista.</div>';
+        return;
+      }
+      const max = Math.max(...data.map(item => item[metric]), 1);
+      el.innerHTML = data.map(item => (
+        '<div class="bar-row"><div class="bar-label" title="' + esc(item.label) + '">' + esc(item.label) +
+        '</div><div class="bar-track"><div class="bar" style="width:' + Math.max(2, item[metric] / max * 100) +
+        '%"></div></div><div class="bar-value">' + (metric === 'amount' ? money.format(item.amount) : num.format(item.quantity)) +
+        '</div></div>'
+      )).join('');
+    }
+
+    function renderPhotoPerformance(rows) {
+      const fotos = photoRows(rows);
+      const ingresoFoto = sum(fotos, fields.total);
+      const ventasFoto = sum(fotos, fields.cantidad);
+      const ticketPromedioFoto = ventasFoto ? ingresoFoto / ventasFoto : 0;
+      const paquetes = groupPhotoPackages(fotos);
+      const topProductoFoto = paquetes.length ? paquetes.reduce((best, item) => item.quantity > best.quantity ? item : best, paquetes[0]).label : 'Sin datos';
+      const totalVendido = sum(rows, fields.total);
+      const participacionFoto = totalVendido ? ingresoFoto / totalVendido * 100 : 0;
+
+      console.log('Rendimiento fotografia', {
+        ingresoFoto,
+        ventasFoto,
+        ticketPromedioFoto,
+        topProductoFoto,
+        participacionFoto
+      });
+
+      const cards = [
+        ['Ingreso total fotografía', money.format(ingresoFoto)],
+        ['Cantidad total de ventas foto', num.format(ventasFoto)],
+        ['Ticket promedio fotografía', money.format(ticketPromedioFoto)],
+        ['Producto foto más vendido', topProductoFoto],
+        ['Participación fotografía', percent(participacionFoto)],
+      ];
+
+      document.querySelector('#photoPerformanceKpis').innerHTML = cards.map(([label, value]) => (
+        '<div class="photo-kpi"><div class="label">' + esc(label) + '</div><div class="value">' + esc(value) + '</div></div>'
+      )).join('');
+
+      renderPhotoDarkBars('#photoPackagePerformanceBars', paquetes, 'quantity');
+      renderPhotoDarkBars('#photoDatePerformanceBars', groupPhotoDates(fotos), 'amount');
+    }
+
+    function obtenerHorarioFila(row) {
+      return row['Horario'] || row['Hora Emisión'] || row['Hora'] || row['Turno'] || 'Sin horario';
+    }
+
+    function horarioNormalizado(row) {
+      return normalizeTimeSlot(obtenerHorarioFila(row)) || 'Sin horario';
+    }
+
+    function scheduleAnalysis(rows) {
+      const map = new Map();
+      rows.forEach((row, index) => {
+        const horario = horarioNormalizado(row);
+        if (!map.has(horario)) {
+          map.set(horario, {
+            horario,
+            totalVendido: 0,
+            pulseras: 0,
+            fullPass: 0,
+            standard: 0,
+            ingresoFoto: 0,
+            ventasFoto: 0,
+            order: index
+          });
+        }
+        const item = String(row[fields.producto] || row.Item || '').toUpperCase();
+        const cantidad = toNumber(row[fields.cantidad]);
+        const total = toNumber(row[fields.total]);
+        const data = map.get(horario);
+
+        data.totalVendido += total;
+        if (item.includes('PULSERA')) data.pulseras += cantidad;
+        if (item.includes('PULSERA FULL PASS')) data.fullPass += cantidad;
+        if (item.includes('PULSERA STANDARD')) data.standard += cantidad;
+        if (esFotografia(item)) {
+          data.ingresoFoto += total;
+          data.ventasFoto += cantidad;
+        }
+      });
+
+      return [...map.values()].sort((a, b) => {
+        const diff = slotStartMinutes(a.horario) - slotStartMinutes(b.horario);
+        return diff || a.order - b.order;
+      });
+    }
+
+    function bestSchedule(data, key) {
+      return data.reduce((best, item) => item[key] > best[key] ? item : best, data[0] || null);
+    }
+
+    function opportunityText(data) {
+      if (!data.length) return 'Sin datos suficientes para detectar oportunidades.';
+
+      const fullPassOpportunity = data
+        .filter(item => item.standard >= 3 && item.standard > item.fullPass * 1.5)
+        .sort((a, b) => (b.standard - b.fullPass) - (a.standard - a.fullPass))[0];
+
+      if (fullPassOpportunity) {
+        return 'Hay oportunidad de empujar Full Pass en este horario: ' + fullPassOpportunity.horario + '.';
+      }
+
+      const photoOpportunity = data
+        .filter(item => item.fullPass >= 3 && item.ventasFoto < Math.max(1, item.fullPass * 0.15))
+        .sort((a, b) => (b.fullPass - b.ventasFoto) - (a.fullPass - a.ventasFoto))[0];
+
+      if (photoOpportunity) {
+        return 'Hay oportunidad de vender más paquetes de foto en este horario: ' + photoOpportunity.horario + '.';
+      }
+
+      return 'Los horarios muestran una mezcla equilibrada entre Full Pass, Standard y fotografía.';
+    }
+
+    function renderScheduleBars(id, data, key, formatter) {
+      const el = document.querySelector(id);
+      const rows = data.filter(item => item[key] > 0);
+      if (!rows.length) {
+        el.innerHTML = '<div class="empty">Sin datos para esta vista.</div>';
+        return;
+      }
+      const max = Math.max(...rows.map(item => item[key]), 1);
+      el.innerHTML = rows.map(item => (
+        '<div class="bar-row"><div class="bar-label" title="' + esc(item.horario) + '">' + esc(item.horario) +
+        '</div><div class="bar-track"><div class="bar" style="width:' + Math.max(2, item[key] / max * 100) +
+        '%"></div></div><div class="bar-value">' + formatter(item[key]) + '</div></div>'
+      )).join('');
+    }
+
+    function renderScheduleOpportunities(rows) {
+      const analisisHorarios = scheduleAnalysis(rows);
+      const bestFullPass = bestSchedule(analisisHorarios, 'fullPass');
+      const horariosFoto = analisisHorarios.filter(item => item.ingresoFoto > 0 || item.ventasFoto > 0);
+      const bestPhoto = bestSchedule(horariosFoto, 'ingresoFoto') || bestSchedule(horariosFoto, 'ventasFoto');
+      const bestTotal = bestSchedule(analisisHorarios, 'totalVendido');
+      const opportunity = opportunityText(analisisHorarios);
+
+      console.log('Horarios y oportunidades:', analisisHorarios);
+
+      const cards = [
+        ['Mejor horario para FULL PASS', bestFullPass ? bestFullPass.horario + ' · ' + num.format(bestFullPass.fullPass) : 'Sin datos'],
+        ['Mejor horario para fotografía', bestPhoto ? bestPhoto.horario + ' · ' + money.format(bestPhoto.ingresoFoto) : 'Sin datos'],
+        ['Horario con mayor venta total', bestTotal ? bestTotal.horario + ' · ' + money.format(bestTotal.totalVendido) : 'Sin datos'],
+        ['Oportunidad detectada', opportunity],
+      ];
+
+      document.querySelector('#scheduleOpportunityKpis').innerHTML = cards.map(([label, value]) => (
+        '<div class="photo-kpi"><div class="label">' + esc(label) + '</div><div class="value">' + esc(value) + '</div></div>'
+      )).join('');
+
+      renderScheduleBars('#scheduleTotalBars', analisisHorarios, 'totalVendido', value => money.format(value));
+      renderScheduleBars('#scheduleFullPassBars', analisisHorarios, 'fullPass', value => num.format(value));
+      renderScheduleBars('#schedulePhotoBars', analisisHorarios, 'ingresoFoto', value => money.format(value));
+    }
+
+    function dailySummary(rows) {
+      const map = new Map();
+      rows.forEach(row => {
+        const fecha = normalizeDate(getRowDate(row));
+        if (!fecha || fecha === 'Sin fecha') return;
+        if (!map.has(fecha)) {
+          map.set(fecha, {
+            fecha,
+            totalVendido: 0,
+            totalPulseras: 0,
+            fullPass: 0,
+            standard: 0,
+            ingresoFotografia: 0,
+            ventasFotografia: 0,
+            conversion: 0,
+            ticketPromedio: 0
+          });
+        }
+        const item = String(row[fields.producto] || row.Item || '').toUpperCase();
+        const cantidad = toNumber(row[fields.cantidad]);
+        const total = toNumber(row[fields.total]);
+        const day = map.get(fecha);
+
+        day.totalVendido += total;
+        if (item.includes('PULSERA')) day.totalPulseras += cantidad;
+        if (item.includes('PULSERA FULL PASS')) day.fullPass += cantidad;
+        if (item.includes('PULSERA STANDARD')) day.standard += cantidad;
+        if (esFotografia(item)) {
+          day.ingresoFotografia += total;
+          day.ventasFotografia += cantidad;
+        }
+      });
+
+      return [...map.values()].map(day => ({
+        ...day,
+        conversion: day.totalPulseras ? day.fullPass / day.totalPulseras * 100 : 0,
+        ticketPromedio: day.totalPulseras ? day.totalVendido / day.totalPulseras : 0
+      })).sort((a, b) => {
+        const da = parseSearchDate(a.fecha);
+        const db = parseSearchDate(b.fecha);
+        return (da?.getTime() || 0) - (db?.getTime() || 0);
+      });
+    }
+
+    function bestDay(data, key) {
+      return data.reduce((best, item) => item[key] > best[key] ? item : best, data[0] || null);
+    }
+
+    function selectedEvolutionDays(resumenPorDia, fechaSeleccionada) {
+      if (fechaSeleccionada === 'all') return resumenPorDia;
+      const index = resumenPorDia.findIndex(day => day.fecha === fechaSeleccionada);
+      if (index < 0) return resumenPorDia;
+      const previous = index > 0 ? resumenPorDia[index - 1] : null;
+      return [previous, resumenPorDia[index]].filter(Boolean);
+    }
+
+    function deltaPercent(current, previous) {
+      if (previous === 0 && current > 0) return 100;
+      if (previous === 0) return 0;
+      return (current - previous) / Math.abs(previous) * 100;
+    }
+
+    function deltaText(label, current, previous, suffix = '%') {
+      const delta = deltaPercent(current, previous);
+      const direction = delta >= 0 ? 'subió' : 'bajó';
+      return label + ': ' + direction + ' ' + num.format(Math.abs(delta)) + suffix;
+    }
+
+    function comparisonPhrase(current, previous) {
+      if (!current || !previous) return 'Selecciona una fecha con día anterior disponible para ver una comparación.';
+      const premiumBetter = current.conversion >= previous.conversion && current.fullPass >= previous.fullPass;
+      const volumeBetter = current.totalVendido > previous.totalVendido || current.totalPulseras > previous.totalPulseras;
+      if (premiumBetter) return 'Este día tuvo mejor rendimiento premium que el día anterior.';
+      if (volumeBetter && current.conversion < previous.conversion) return 'Este día tuvo más volumen, pero menor conversión premium.';
+      return 'Este día mantuvo un comportamiento estable frente al día anterior.';
+    }
+
+    function renderEvolutionLine(id, data, key, formatter) {
+      const el = document.querySelector(id);
+      if (!data.length) {
+        el.innerHTML = '<div class="empty">Sin datos para esta vista.</div>';
+        return;
+      }
+      const width = 640;
+      const height = 150;
+      const padX = 36;
+      const padY = 24;
+      const values = data.map(item => item[key]);
+      const max = Math.max(...values, 1);
+      const min = Math.min(...values, 0);
+      const range = Math.max(max - min, 1);
+      const points = data.map((item, index) => {
+        const x = data.length === 1 ? width / 2 : padX + index * ((width - padX * 2) / (data.length - 1));
+        const y = height - padY - ((item[key] - min) / range) * (height - padY * 2);
+        return { x, y, item };
+      });
+      const pointText = points.map(point => point.x + ',' + point.y).join(' ');
+      const labels = points.map(point => (
+        '<circle cx="' + point.x + '" cy="' + point.y + '" r="4"><title>' + esc(point.item.fecha + ' · ' + formatter(point.item[key])) + '</title></circle>'
+      )).join('');
+      const first = data[0];
+      const last = data[data.length - 1];
+      el.innerHTML = '<svg viewBox="0 0 ' + width + ' ' + height + '" preserveAspectRatio="none">' +
+        '<line x1="' + padX + '" y1="' + (height - padY) + '" x2="' + (width - padX) + '" y2="' + (height - padY) + '" stroke="#33424e" />' +
+        '<polyline points="' + pointText + '"></polyline>' + labels +
+        '<text x="' + padX + '" y="' + (height - 7) + '">' + esc(first.fecha) + '</text>' +
+        '<text x="' + (width - padX - 58) + '" y="' + (height - 7) + '">' + esc(last.fecha) + '</text>' +
+        '<text x="' + padX + '" y="16">' + esc(formatter(max)) + '</text>' +
+        '</svg>';
+    }
+
+    function renderComparisonEvolution(rows) {
+      const resumenPorDia = dailySummary(allRows);
+      const fechaSeleccionada = dateFilter ? dateFilter.value : 'all';
+      const selectedIndex = resumenPorDia.findIndex(day => day.fecha === fechaSeleccionada);
+      const selectedDay = selectedIndex >= 0 ? resumenPorDia[selectedIndex] : null;
+      const diaAnterior = selectedIndex > 0 ? resumenPorDia[selectedIndex - 1] : null;
+      const chartDays = selectedEvolutionDays(resumenPorDia, fechaSeleccionada);
+      const bestSales = bestDay(resumenPorDia, 'totalVendido');
+      const bestFullPass = bestDay(resumenPorDia, 'fullPass');
+      const bestPhoto = bestDay(resumenPorDia, 'ingresoFotografia');
+      const bestConversion = bestDay(resumenPorDia.filter(day => day.totalPulseras > 0), 'conversion');
+
+      console.log('Comparativa y evolución:', resumenPorDia);
+      console.log('Fecha seleccionada:', fechaSeleccionada);
+      console.log('Día anterior comparado:', diaAnterior);
+
+      const cards = [
+        ['Mejor día en ventas totales', bestSales ? bestSales.fecha + ' · ' + money.format(bestSales.totalVendido) : 'Sin datos'],
+        ['Mejor día en Full Pass', bestFullPass ? bestFullPass.fecha + ' · ' + num.format(bestFullPass.fullPass) : 'Sin datos'],
+        ['Mejor día en fotografía', bestPhoto ? bestPhoto.fecha + ' · ' + money.format(bestPhoto.ingresoFotografia) : 'Sin datos'],
+        ['Mayor conversión Full Pass', bestConversion ? bestConversion.fecha + ' · ' + percent(bestConversion.conversion) : 'Sin datos'],
+      ];
+
+      document.querySelector('#comparisonEvolutionKpis').innerHTML = cards.map(([label, value]) => (
+        '<div class="photo-kpi"><div class="label">' + esc(label) + '</div><div class="value">' + esc(value) + '</div></div>'
+      )).join('');
+
+      if (fechaSeleccionada !== 'all' && selectedDay && diaAnterior) {
+        const conversionDelta = selectedDay.conversion - diaAnterior.conversion;
+        const comparisonCards = [
+          ['Comparado contra', diaAnterior.fecha],
+          ['Ventas', deltaText('', selectedDay.totalVendido, diaAnterior.totalVendido).replace(': ', '')],
+          ['Full Pass', deltaText('', selectedDay.fullPass, diaAnterior.fullPass).replace(': ', '')],
+          ['Fotografía', deltaText('', selectedDay.ingresoFotografia, diaAnterior.ingresoFotografia).replace(': ', '')],
+          ['Conversión', (conversionDelta >= 0 ? 'subió ' : 'bajó ') + num.format(Math.abs(conversionDelta)) + ' puntos'],
+          ['Lectura automática', comparisonPhrase(selectedDay, diaAnterior)],
+        ];
+        document.querySelector('#comparisonDeltaKpis').innerHTML = comparisonCards.map(([label, value]) => (
+          '<div class="photo-kpi"><div class="label">' + esc(label) + '</div><div class="value">' + esc(value) + '</div></div>'
+        )).join('');
+      } else {
+        document.querySelector('#comparisonDeltaKpis').innerHTML =
+          '<div class="photo-kpi"><div class="label">Vista histórica</div><div class="value">Evolución general por día</div></div>';
+      }
+
+      renderEvolutionLine('#salesEvolutionLine', chartDays, 'totalVendido', value => money.format(value));
+      renderPhotoDarkBars('#fullPassEvolutionBars', chartDays.map(day => ({ label: day.fecha, quantity: day.fullPass, amount: day.totalVendido })), 'quantity');
+      renderEvolutionLine('#conversionEvolutionLine', chartDays, 'conversion', value => percent(value));
+      renderPhotoDarkBars('#photoEvolutionBars', chartDays.map(day => ({ label: day.fecha, quantity: day.ventasFotografia, amount: day.ingresoFotografia })), 'amount');
+    }
+
+    function filteredSummary(rows) {
+      const totalVendido = sum(rows, fields.total);
+      const totalPulseras = totalBracelets(rows);
+      const fullPass = braceletQuantity(rows, ['PULSERA FULL PASS']);
+      const standard = braceletQuantity(rows, ['PULSERA STANDARD']);
+      const fotos = photoRows(rows);
+      const ingresoFotografia = sum(fotos, fields.total);
+      const ventasFotografia = sum(fotos, fields.cantidad);
+      return {
+        totalVendido,
+        totalPulseras,
+        fullPass,
+        standard,
+        ingresoFotografia,
+        ventasFotografia,
+        conversionFullPass: totalPulseras ? fullPass / totalPulseras * 100 : 0,
+        participacionFotografia: totalVendido ? ingresoFotografia / totalVendido * 100 : 0
+      };
+    }
+
+    function priorityScore(priority) {
+      return { Alta: 3, Media: 2, Baja: 1 }[priority] || 0;
+    }
+
+    function addRecommendation(list, priority, icon, title, text) {
+      list.push({ priority, icon, title, text });
+    }
+
+    function buildSmartRecommendations(rows) {
+      const summary = filteredSummary(rows);
+      const horarios = scheduleAnalysis(rows);
+      const mejorHorarioFullPass = bestSchedule(horarios, 'fullPass');
+      const horariosFoto = horarios.filter(item => item.ingresoFoto > 0 || item.ventasFoto > 0);
+      const mejorHorarioFotografia = bestSchedule(horariosFoto, 'ingresoFoto') || bestSchedule(horariosFoto, 'ventasFoto');
+      const historico = dailySummary(allRows);
+      const fechaSeleccionada = dateFilter ? dateFilter.value : 'all';
+      const selectedIndex = historico.findIndex(day => day.fecha === fechaSeleccionada);
+      const selectedDay = selectedIndex >= 0 ? historico[selectedIndex] : null;
+      const diaAnterior = selectedIndex > 0 ? historico[selectedIndex - 1] : null;
+      const promedioHistorico = historico.length ? historico.reduce((acc, day) => acc + day.totalVendido, 0) / historico.length : 0;
+      const recomendaciones = [];
+
+      if (summary.conversionFullPass > 25) {
+        addRecommendation(recomendaciones, 'Baja', '✨', 'Replicar estrategia premium', 'Excelente conversión premium. Conviene replicar la estrategia de este día: comunicación clara, oferta visible y empuje del Full Pass.');
+      } else if (summary.conversionFullPass >= 15) {
+        addRecommendation(recomendaciones, 'Media', '📸', 'Reforzar fotografía como valor', 'La conversión Full Pass está por encima de la base histórica. Hay oportunidad de reforzar fotografía como argumento de valor.');
+      } else {
+        addRecommendation(recomendaciones, 'Alta', '🔥', 'Levantar conversión Full Pass', 'La conversión Full Pass está por debajo de la base. Se recomienda reforzar la explicación del beneficio premium y mejorar la visibilidad de fotografía.');
+      }
+
+      if (summary.standard >= 30 && summary.standard > summary.fullPass * 1.8) {
+        addRecommendation(recomendaciones, 'Alta', '⬆', 'Aumentar upselling en Standard', 'Hay alto volumen de clientes Standard. Este es el mejor punto para aplicar upselling hacia Full Pass.');
+      }
+
+      if (summary.fullPass >= 10 && summary.ventasFotografia < Math.max(2, summary.fullPass * 0.15)) {
+        addRecommendation(recomendaciones, 'Alta', '🎯', 'Convertir premium en foto', 'Los clientes premium ya perciben valor, pero falta convertirlos en compradores de paquetes fotográficos.');
+      }
+
+      if (summary.participacionFotografia > 3) {
+        addRecommendation(recomendaciones, 'Media', '📈', 'Dar más presencia a foto', 'La fotografía ya empieza a representar una línea de ingreso visible. Conviene darle más presencia en pantalla y punto de venta.');
+      } else if (summary.participacionFotografia < 1) {
+        addRecommendation(recomendaciones, 'Alta', '📺', 'Hacer visible la fotografía', 'La fotografía todavía tiene baja participación. Se recomienda mejorar guion de venta, exhibición en TV y paquetes visibles.');
+      }
+
+      if (mejorHorarioFullPass || mejorHorarioFotografia) {
+        const horario = mejorHorarioFotografia?.horario || mejorHorarioFullPass?.horario || 'el horario pico';
+        addRecommendation(recomendaciones, 'Media', '⏰', 'Activar punto caliente', 'El horario con mayor oportunidad debe tener fotógrafo activo, TV encendida y paquetes visibles. Priorizar ' + horario + '.');
+      }
+
+      if (fechaSeleccionada !== 'all' && selectedDay && selectedDay.totalVendido > promedioHistorico) {
+        addRecommendation(recomendaciones, 'Baja', '🔎', 'Analizar condición ganadora', 'Este día superó el promedio histórico. Conviene analizar qué condición ayudó: clima, flujo, promoción o equipo de venta.');
+      }
+
+      if (selectedDay && diaAnterior && selectedDay.totalPulseras > diaAnterior.totalPulseras && selectedDay.conversion < diaAnterior.conversion) {
+        addRecommendation(recomendaciones, 'Alta', '⚖', 'Volumen sin conversión premium', 'El volumen no garantiza rentabilidad. Hay que trabajar la conversión premium para aprovechar mejor el flujo.');
+      }
+
+      if (recomendaciones.length < 3) {
+        addRecommendation(recomendaciones, 'Media', '🧭', 'Mantener seguimiento diario', 'Revisar la evolución por fecha ayuda a separar crecimiento por volumen de crecimiento por conversión premium.');
+      }
+      if (recomendaciones.length < 3) {
+        addRecommendation(recomendaciones, 'Baja', '💡', 'Probar mensajes de valor', 'Usar la fotografía como prueba visible del valor del Full Pass puede mejorar la decisión antes del ingreso.');
+      }
+
+      return recomendaciones
+        .sort((a, b) => priorityScore(b.priority) - priorityScore(a.priority))
+        .slice(0, 6);
+    }
+
+    function renderSmartRecommendations(rows) {
+      const recomendaciones = buildSmartRecommendations(rows);
+      console.log('Recomendaciones inteligentes:', recomendaciones);
+
+      document.querySelector('#smartRecommendationCards').innerHTML = recomendaciones.map(item => (
+        '<div class="recommendation-card"><div class="recommendation-priority">' +
+        esc(item.icon) + ' Prioridad ' + esc(item.priority) + '</div><h3>' +
+        esc(item.title) + '</h3><p>' + esc(item.text) + '</p></div>'
+      )).join('');
+    }
+
+    function simulatorDefaults(rows) {
+      const summary = filteredSummary(rows);
+      const historical = dailySummary(allRows);
+      const avgPeople = historical.length ? historical.reduce((acc, day) => acc + day.totalPulseras, 0) / historical.length : 300;
+      const fotos = photoRows(rows);
+      const ingresoFoto = sum(fotos, fields.total);
+      const ventasFoto = sum(fotos, fields.cantidad);
+      const ticketFoto = ventasFoto ? ingresoFoto / ventasFoto : 50;
+      return {
+        personas: Math.round(summary.totalPulseras || avgPeople || 300),
+        conversion: Math.min(40, Math.max(10, summary.conversionFullPass || 15)),
+        ticketFoto: Math.round(ticketFoto || 50),
+        porcentajeFoto: 15,
+        totalActual: summary.totalVendido,
+        ingresoFotoActual: summary.ingresoFotografia
+      };
+    }
+
+    function syncSimulatorDefaults(rows) {
+      const currentDate = dateFilter ? dateFilter.value : 'all';
+      const shouldReset = simulatorLastDate !== currentDate || !simulatorTouched;
+      if (!shouldReset) return;
+
+      const defaults = simulatorDefaults(rows);
+      simPeople.value = defaults.personas;
+      simFullPassConversion.value = defaults.conversion.toFixed(1);
+      simPhotoTicket.value = defaults.ticketFoto;
+      simPhotoPercent.value = defaults.porcentajeFoto;
+      simulatorLastDate = currentDate;
+      simulatorTouched = false;
+    }
+
+    function simulatorValues() {
+      return {
+        personas: Math.max(0, toNumber(simPeople.value)),
+        conversion: Math.max(10, Math.min(40, toNumber(simFullPassConversion.value))),
+        ticketFoto: Math.max(0, toNumber(simPhotoTicket.value)),
+        porcentajeFoto: Math.max(0, Math.min(100, toNumber(simPhotoPercent.value)))
+      };
+    }
+
+    function scenarioRecommendationText(values, projected, summary) {
+      const extra = projected.totalEstimado - summary.totalVendido;
+      if (values.conversion > summary.conversionFullPass + 2) {
+        return 'Si la conversión Full Pass sube al ' + num.format(values.conversion) + '%, el parque podría generar aproximadamente ' + money.format(Math.max(0, extra)) + ' extra por día.';
+      }
+      if (values.porcentajeFoto >= 30) {
+        return 'Si el ' + num.format(values.porcentajeFoto) + '% de clientes Full Pass compra fotografía, el ingreso foto podría multiplicarse.';
+      }
+      if (extra > 0) {
+        return 'El escenario proyectado mejora el resultado actual en ' + money.format(extra) + '. Conviene probarlo en horarios pico.';
+      }
+      return 'El escenario mantiene un resultado cercano al actual. Para crecer, sube conversión Full Pass o participación de fotografía.';
+    }
+
+    function renderScenarioSimulator(rows) {
+      syncSimulatorDefaults(rows);
+
+      const summary = filteredSummary(rows);
+      const values = simulatorValues();
+      const fullPassProyectados = values.personas * (values.conversion / 100);
+      const standardProyectados = Math.max(0, values.personas - fullPassProyectados);
+      const ingresoPulseras = standardProyectados * 60 + fullPassProyectados * 100;
+      const clientesFoto = fullPassProyectados * (values.porcentajeFoto / 100);
+      const ingresoFoto = clientesFoto * values.ticketFoto;
+      const totalEstimado = ingresoPulseras + ingresoFoto;
+      const diferencia = totalEstimado - summary.totalVendido;
+      const projected = { fullPassProyectados, standardProyectados, ingresoPulseras, clientesFoto, ingresoFoto, totalEstimado, diferencia };
+
+      simFullPassConversionValue.textContent = percent(values.conversion);
+      simPhotoPercentValue.textContent = percent(values.porcentajeFoto);
+
+      const cards = [
+        ['Full Pass proyectados', num.format(Math.round(fullPassProyectados))],
+        ['Standard proyectados', num.format(Math.round(standardProyectados))],
+        ['Ingreso pulseras', money.format(ingresoPulseras)],
+        ['Ingreso fotografía proyectado', money.format(ingresoFoto)],
+        ['Total estimado', money.format(totalEstimado)],
+        ['Diferencia vs resultado actual', (diferencia >= 0 ? '+' : '') + money.format(diferencia)],
+      ];
+
+      document.querySelector('#scenarioSimulatorKpis').innerHTML = cards.map(([label, value]) => (
+        '<div class="photo-kpi"><div class="label">' + esc(label) + '</div><div class="value">' + esc(value) + '</div></div>'
+      )).join('');
+
+      renderPhotoDarkBars('#scenarioComparisonBars', [
+        { label: 'Ventas actuales', quantity: 1, amount: summary.totalVendido },
+        { label: 'Ventas simuladas', quantity: 1, amount: totalEstimado },
+      ], 'amount');
+      document.querySelector('#scenarioRecommendation').textContent = scenarioRecommendationText(values, projected, summary);
+    }
+
+    function addAlert(list, priority, icon, title, text) {
+      list.push({ priority, icon, title, text });
+    }
+
+    function historicalAverages() {
+      const days = dailySummary(allRows);
+      const count = Math.max(days.length, 1);
+      return {
+        ventas: days.reduce((acc, day) => acc + day.totalVendido, 0) / count,
+        personas: days.reduce((acc, day) => acc + day.totalPulseras, 0) / count,
+        conversion: days.reduce((acc, day) => acc + day.conversion, 0) / count,
+        ticket: days.reduce((acc, day) => acc + day.ticketPromedio, 0) / count,
+        fullPass: days.reduce((acc, day) => acc + day.fullPass, 0) / count,
+      };
+    }
+
+    function buildIntelligentAlerts(rows) {
+      const summary = filteredSummary(rows);
+      const averages = historicalAverages();
+      const horarios = scheduleAnalysis(rows);
+      const bestTotalHorario = bestSchedule(horarios, 'totalVendido');
+      const alertas = [];
+
+      if (summary.conversionFullPass > 25) {
+        addAlert(alertas, 'Baja', '🟢', 'Excelente conversión premium', 'El Full Pass tuvo un rendimiento excepcional. Conviene analizar qué elemento ayudó: comunicación, fotografía, clima o flujo.');
+      }
+
+      if (summary.conversionFullPass < 15) {
+        addAlert(alertas, 'Alta', '🔴', 'Conversión Full Pass por debajo de la base histórica', 'La conversión premium está por debajo del promedio esperado del 15%. Se recomienda reforzar el valor del Full Pass.');
+      }
+
+      if (summary.standard > summary.fullPass * 3) {
+        addAlert(alertas, 'Media', '🟡', 'Oportunidad de upselling', 'Hay gran cantidad de clientes Standard. Este escenario tiene alto potencial para convertir más Full Pass.');
+      }
+
+      if (summary.fullPass > 30 && summary.participacionFotografia < 2) {
+        addAlert(alertas, 'Alta', '🔴', 'Fotografía desaprovechada', 'Muchos clientes premium pero poca venta foto. Se recomienda reforzar visuales, TV y guion de venta.');
+      }
+
+      if (summary.participacionFotografia > 3) {
+        addAlert(alertas, 'Baja', '🟢', 'Fotografía gana relevancia', 'La fotografía empieza a representar una línea de ingreso visible dentro del parque.');
+      }
+
+      if (summary.totalVendido > averages.ventas * 1.2) {
+        addAlert(alertas, 'Baja', '🟢', 'Día por encima del promedio', 'El parque tuvo un rendimiento superior al promedio histórico.');
+      }
+
+      if (summary.totalPulseras > averages.personas && summary.conversionFullPass < averages.conversion) {
+        addAlert(alertas, 'Alta', '🔴', 'Mucho flujo, poco premium', 'El volumen no se convirtió correctamente en ingresos premium.');
+      }
+
+      if (bestTotalHorario && bestTotalHorario.totalVendido > 0) {
+        addAlert(alertas, 'Media', '🟡', 'Horario estratégico detectado', 'El mejor horario de venta merece mayor presencia de fotografía y upselling. Priorizar ' + bestTotalHorario.horario + '.');
+      }
+
+      const ticketPromedio = summary.totalPulseras ? summary.totalVendido / summary.totalPulseras : 0;
+      if (ticketPromedio < averages.ticket) {
+        addAlert(alertas, 'Media', '🟡', 'Ticket promedio bajo', 'El valor por visitante está por debajo del promedio. Hay oportunidad de vender más experiencia premium.');
+      }
+
+      if (summary.fullPass > averages.fullPass) {
+        addAlert(alertas, 'Baja', '🟢', 'Full Pass creciendo', 'El producto premium está funcionando mejor que el promedio histórico.');
+      }
+
+      if (!alertas.length) {
+        addAlert(alertas, 'Baja', '🟢', 'Operación estable', 'No se detectan riesgos críticos en este filtro. Mantener seguimiento de conversión, fotografía y horarios pico.');
+      }
+
+      return alertas
+        .sort((a, b) => priorityScore(b.priority) - priorityScore(a.priority))
+        .slice(0, 8);
+    }
+
+    function renderIntelligentAlerts(rows) {
+      const alertas = buildIntelligentAlerts(rows);
+      console.log('Centro de alertas:', alertas);
+
+      document.querySelector('#intelligentAlertCards').innerHTML = alertas.map(item => (
+        '<div class="recommendation-card"><div class="recommendation-priority">' +
+        esc(item.icon) + ' Prioridad ' + esc(item.priority) + '</div><h3>' +
+        esc(item.title) + '</h3><p>' + esc(item.text) + '</p></div>'
+      )).join('');
+    }
+
+    function generarResumenEjecutivo(metricas, alertas) {
+      const fechaSeleccionada = dateFilter ? dateFilter.value : 'all';
+      const titulo = fechaSeleccionada === 'all' ? 'Resumen histórico general' : 'Resumen del ' + fechaSeleccionada;
+      const partes = [];
+      const acciones = [];
+      let diagnostico = 'Diagnóstico: Fotografía con margen de crecimiento';
+
+      partes.push('El período analizado registra ' + money.format(metricas.totalVendido) + ' en ventas, con ' + num.format(metricas.totalPulseras) + ' pulseras vendidas y un ticket promedio de ' + money.format(metricas.ticketPromedio) + '.');
+
+      if (metricas.conversionFullPass > 25) {
+        partes.push('El rendimiento premium fue sobresaliente, con una conversión Full Pass de ' + percent(metricas.conversionFullPass) + '.');
+        diagnostico = 'Diagnóstico: Día de alta conversión premium';
+        acciones.push('Replicar estrategia de los días con conversión superior al 25%.');
+      } else if (metricas.conversionFullPass >= 15) {
+        partes.push('La conversión estuvo por encima de la base histórica del 15%, alcanzando ' + percent(metricas.conversionFullPass) + '.');
+        diagnostico = 'Diagnóstico: Buen potencial premium';
+        acciones.push('Usar el Full Pass como producto principal, no como extra.');
+      } else {
+        partes.push('El volumen no se transformó suficientemente en ventas premium, con una conversión de ' + percent(metricas.conversionFullPass) + '.');
+        diagnostico = 'Diagnóstico: Baja conversión premium';
+        acciones.push('Reforzar explicación del Full Pass en caja.');
+      }
+
+      if (metricas.ingresoFotografia > 0) {
+        partes.push('La fotografía aportó ' + money.format(metricas.ingresoFotografia) + ' en ingresos adicionales y refuerza el valor percibido del Full Pass.');
+      }
+      if (metricas.participacionFotografia < 3) {
+        partes.push('La fotografía todavía tiene margen para crecer como producto comercial.');
+        acciones.push('Mostrar paquetes de fotografía en pantalla durante horarios pico.');
+      }
+      if (metricas.standard > metricas.fullPass * 3) {
+        partes.push('Existe oportunidad de convertir más clientes Standard hacia Full Pass.');
+        acciones.push('Activar guion de venta para clientes Standard.');
+      }
+      if (metricas.mejorHorario) {
+        partes.push('El horario con mejor rendimiento debe concentrar mayor presencia de venta y fotografía.');
+        acciones.push('Concentrar fotógrafo en el horario de mayor conversión.');
+      }
+      if (metricas.totalVendido > metricas.promedioHistoricoVentas * 1.2) {
+        diagnostico = metricas.conversionFullPass >= 15 ? 'Diagnóstico: Día excepcional' : diagnostico;
+        acciones.push('Revisar por qué días de alta afluencia no convierten igual.');
+      }
+      if (alertas.some(alerta => alerta.title.includes('Mucho flujo'))) {
+        diagnostico = 'Diagnóstico: Buen volumen, baja conversión';
+      }
+      if (metricas.participacionFotografia < 1) {
+        diagnostico = metricas.conversionFullPass > 25 ? diagnostico : 'Diagnóstico: Fotografía con margen de crecimiento';
+      }
+
+      acciones.push('Usar fotos reales del día para aumentar deseo de compra.');
+
+      return {
+        titulo,
+        texto: partes.slice(0, 6).join(' '),
+        acciones: [...new Set(acciones)].slice(0, 3),
+        diagnostico
+      };
+    }
+
+    function executiveMetrics(rows) {
+      const summary = filteredSummary(rows);
+      const horarios = scheduleAnalysis(rows);
+      const mejorHorario = bestSchedule(horarios, 'totalVendido');
+      const averages = historicalAverages();
+      return {
+        ...summary,
+        ticketPromedio: summary.totalPulseras ? summary.totalVendido / summary.totalPulseras : 0,
+        mejorHorario: mejorHorario?.horario || '',
+        promedioHistoricoVentas: averages.ventas
+      };
+    }
+
+    function renderExecutiveSummary(rows) {
+      const alertas = buildIntelligentAlerts(rows);
+      const resumenEjecutivo = generarResumenEjecutivo(executiveMetrics(rows), alertas);
+      console.log('Resumen ejecutivo:', resumenEjecutivo);
+
+      document.querySelector('#executiveSummaryTitle').textContent = resumenEjecutivo.titulo;
+      document.querySelector('#executiveSummaryText').textContent = resumenEjecutivo.texto;
+      document.querySelector('#executiveSummaryActions').innerHTML = resumenEjecutivo.acciones.map(action => (
+        '<li>✓ ' + esc(action) + '</li>'
+      )).join('');
+      document.querySelector('#executiveSummaryDiagnosis').textContent = resumenEjecutivo.diagnostico;
+    }
+
+    function executiveSummaryPlainText() {
+      const title = document.querySelector('#executiveSummaryTitle')?.textContent || '';
+      const text = document.querySelector('#executiveSummaryText')?.textContent || '';
+      const actions = [...document.querySelectorAll('#executiveSummaryActions li')].map(item => '- ' + item.textContent.replace(/^✓\s*/, ''));
+      const diagnosis = document.querySelector('#executiveSummaryDiagnosis')?.textContent || '';
+      return [title, '', text, '', 'Acciones recomendadas:', ...actions, '', diagnosis].join('\n');
+    }
+
+    function fallbackCopyText(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.top = '0';
+      textarea.style.left = '0';
+      textarea.style.width = '1px';
+      textarea.style.height = '1px';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      textarea.setSelectionRange(0, textarea.value.length);
+      const copied = document.execCommand('copy');
+      document.body.removeChild(textarea);
+      return copied;
+    }
+
+    function weekendDayName(date) {
+      return ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'][date.getDay()];
+    }
+
+    function dayRowsByDate(fecha) {
+      return allRows.filter(row => normalizeDate(getRowDate(row)) === fecha);
+    }
+
+    function enrichDaySummary(day) {
+      const rows = dayRowsByDate(day.fecha);
+      const horarios = scheduleAnalysis(rows);
+      const mejorHorario = bestSchedule(horarios, 'totalVendido');
+      return {
+        ...day,
+        participacionFotografia: day.totalVendido ? day.ingresoFotografia / day.totalVendido * 100 : 0,
+        mejorHorario: mejorHorario?.horario || 'Sin horario',
+        clientesPremium: day.fullPass
+      };
+    }
+
+    function compararDiasEquivalentes(fechaSeleccionada, historico) {
+      const fechaActual = fechaSeleccionada === 'all' ? historico[historico.length - 1]?.fecha : fechaSeleccionada;
+      const actualIndex = historico.findIndex(day => day.fecha === fechaActual);
+      if (actualIndex < 0) return null;
+
+      const actualDate = parseSearchDate(fechaActual);
+      if (!actualDate) return null;
+      const weekday = actualDate.getDay();
+      const previous = [...historico.slice(0, actualIndex)].reverse().find(day => {
+        const date = parseSearchDate(day.fecha);
+        return date && date.getDay() === weekday;
+      });
+      if (!previous) {
+        return {
+          fechaActual: enrichDaySummary(historico[actualIndex]),
+          fechaComparada: null,
+          diferencias: null,
+          diaSemana: weekendDayName(actualDate)
+        };
+      }
+
+      const actual = enrichDaySummary(historico[actualIndex]);
+      const comparable = enrichDaySummary(previous);
+      return {
+        fechaActual: actual,
+        fechaComparada: comparable,
+        diaSemana: weekendDayName(actualDate),
+        diferencias: {
+          ventasPct: deltaPercent(actual.totalVendido, comparable.totalVendido),
+          fullPassAbs: actual.fullPass - comparable.fullPass,
+          conversionPts: actual.conversion - comparable.conversion,
+          fotografiaAbs: actual.ingresoFotografia - comparable.ingresoFotografia,
+          ticketAbs: actual.ticketPromedio - comparable.ticketPromedio,
+        }
+      };
+    }
+
+    function comparisonStatus(comparacion) {
+      if (!comparacion?.fechaComparada) return '🟡 Sin histórico comparable';
+      const diff = comparacion.diferencias;
+      if (diff.ventasPct > 5 && diff.conversionPts > 0) return '🟢 Mejor que comparable';
+      if (diff.ventasPct < -5 && diff.conversionPts <= 0) return '🔴 Peor que comparable';
+      return '🟡 Similar';
+    }
+
+    function weekendInterpretation(comparacion) {
+      if (!comparacion?.fechaComparada) {
+        return 'No hay suficiente histórico comparable para esta fecha.';
+      }
+      const actual = comparacion.fechaActual;
+      const previous = comparacion.fechaComparada;
+      const diff = comparacion.diferencias;
+
+      if (diff.ventasPct > 0 && diff.conversionPts > 0) {
+        return 'El ' + comparacion.diaSemana + ' actual tuvo mayor conversión premium y mejor venta que el comparable anterior.';
+      }
+      if (diff.ventasPct > 0 && diff.conversionPts < 0) {
+        return 'Hubo más visitantes o ventas, pero menor conversión premium, lo que redujo rentabilidad potencial.';
+      }
+      if (diff.ventasPct < 0 && diff.conversionPts > 0) {
+        return 'Aunque hubo menor venta total, el producto premium funcionó mejor que en el día comparable.';
+      }
+      if (actual.fullPass > previous.fullPass && actual.ingresoFotografia > previous.ingresoFotografia) {
+        return 'La estrategia premium fue efectiva: crecieron Full Pass y fotografía frente al comparable.';
+      }
+      if (actual.standard > actual.fullPass * 3 && actual.conversion < 15) {
+        return 'El volumen Standard fue alto y la conversión premium baja; conviene reforzar upselling.';
+      }
+      if (actual.ingresoFotografia > previous.ingresoFotografia) {
+        return 'La fotografía mejoró respecto al día comparable y ganó peso como línea de ingreso.';
+      }
+      return 'El rendimiento fue similar al día equivalente anterior, con oportunidad de mejorar venta premium y fotografía.';
+    }
+
+    function weekendAction(comparacion) {
+      if (!comparacion?.fechaComparada) return 'Esperar más histórico equivalente antes de tomar decisiones comparativas.';
+      const actual = comparacion.fechaActual;
+      const diff = comparacion.diferencias;
+      if (diff.ventasPct > 0 && diff.conversionPts > 0) return 'Replicar estrategia comercial del ' + actual.fecha + '.';
+      if (diff.ventasPct > 0 && diff.conversionPts < 0) return 'Trabajar mayor empuje premium durante horario pico.';
+      if (actual.ingresoFotografia <= comparacion.fechaComparada.ingresoFotografia) return 'Usar TV y muestra visual de paquetes foto.';
+      return 'Mantener foco en Full Pass y fotografía durante ' + actual.mejorHorario + '.';
+    }
+
+    function renderWeekendComparisonChart(comparacion) {
+      const el = document.querySelector('#weekendComparisonChart');
+      if (!comparacion?.fechaComparada) {
+        el.innerHTML = '<div class="empty">No hay suficiente histórico comparable.</div>';
+        return;
+      }
+      const actual = comparacion.fechaActual;
+      const previous = comparacion.fechaComparada;
+      const metrics = [
+        ['Ventas', previous.totalVendido, actual.totalVendido, value => money.format(value)],
+        ['Full Pass', previous.fullPass, actual.fullPass, value => num.format(value)],
+        ['Fotografía', previous.ingresoFotografia, actual.ingresoFotografia, value => money.format(value)],
+        ['Conversión', previous.conversion, actual.conversion, value => percent(value)],
+      ];
+      el.innerHTML = metrics.map(([label, previousValue, actualValue, formatter]) => {
+        const max = Math.max(previousValue, actualValue, 1);
+        return '<div class="comparison-pair-row"><div class="comparison-pair-label">' + esc(label) + '</div>' +
+          '<div class="comparison-bar-box"><div class="comparison-bar-caption"><span>' + esc(previous.fecha) + '</span><strong>' + esc(formatter(previousValue)) + '</strong></div><div class="bar-track"><div class="bar" style="width:' + Math.max(2, previousValue / max * 100) + '%"></div></div></div>' +
+          '<div class="comparison-bar-box"><div class="comparison-bar-caption"><span>' + esc(actual.fecha) + '</span><strong>' + esc(formatter(actualValue)) + '</strong></div><div class="bar-track"><div class="bar" style="width:' + Math.max(2, actualValue / max * 100) + '%"></div></div></div></div>';
+      }).join('');
+    }
+
+    function renderWeekendComparator(rows) {
+      const historico = dailySummary(allRows);
+      const fechaSeleccionada = dateFilter ? dateFilter.value : 'all';
+      const comparacion = compararDiasEquivalentes(fechaSeleccionada, historico);
+      console.log('Comparador fin de semana:', comparacion);
+
+      const status = comparisonStatus(comparacion);
+      document.querySelector('#weekendComparableStatus').textContent = status;
+
+      if (!comparacion?.fechaComparada) {
+        document.querySelector('#weekendComparatorKpis').innerHTML = '<div class="photo-kpi"><div class="label">Comparación</div><div class="value">No hay suficiente histórico comparable.</div></div>';
+        document.querySelector('#weekendComparatorText').textContent = 'No hay suficiente histórico comparable.';
+        document.querySelector('#weekendComparatorAction').textContent = 'Esperar más datos de días equivalentes.';
+        renderWeekendComparisonChart(comparacion);
+        return;
+      }
+
+      const diff = comparacion.diferencias;
+      const cards = [
+        ['Diferencia ventas', (diff.ventasPct >= 0 ? '+' : '') + percent(diff.ventasPct)],
+        ['Diferencia Full Pass', (diff.fullPassAbs >= 0 ? '+' : '') + num.format(diff.fullPassAbs) + ' Full Pass'],
+        ['Diferencia conversión', (diff.conversionPts >= 0 ? '+' : '') + num.format(diff.conversionPts) + ' puntos'],
+        ['Diferencia fotografía', (diff.fotografiaAbs >= 0 ? '+' : '') + money.format(diff.fotografiaAbs)],
+        ['Ticket promedio comparado', (diff.ticketAbs >= 0 ? '+' : '') + money.format(diff.ticketAbs) + ' por visitante'],
+      ];
+
+      document.querySelector('#weekendComparatorKpis').innerHTML = cards.map(([label, value]) => (
+        '<div class="photo-kpi"><div class="label">' + esc(label) + '</div><div class="value">' + esc(value) + '</div></div>'
+      )).join('');
+      document.querySelector('#weekendComparatorText').textContent = weekendInterpretation(comparacion);
+      document.querySelector('#weekendComparatorAction').textContent = weekendAction(comparacion);
+      renderWeekendComparisonChart(comparacion);
+    }
+
+    function renderKpis(rows) {
+      const totalVendido = sum(rows, fields.total);
+      const totalPulseras = totalBracelets(rows);
       const totalFullPass = braceletQuantity(rows, ['PULSERA FULL PASS']);
       const totalStandard = braceletQuantity(rows, ['PULSERA STANDARD']);
       const conversionFullPass = totalPulseras ? totalFullPass / totalPulseras * 100 : 0;
@@ -1182,6 +2581,15 @@
       const metric = fields.cantidad;
       const amountMetric = fields.total;
       renderKpis(rows);
+      renderPhotoAnalysis(rows);
+      renderPhotoPerformance(rows);
+      renderScheduleOpportunities(rows);
+      renderComparisonEvolution(rows);
+      renderSmartRecommendations(rows);
+      renderScenarioSimulator(rows);
+      renderIntelligentAlerts(rows);
+      renderExecutiveSummary(rows);
+      renderWeekendComparator(rows);
       renderBars('#paymentBars', groupSum(rows, fields.metodo, amountMetric), amountMetric);
       renderBars('#productBars', selectedItems(rows, metric), metric);
       renderPhotoPackages(rows);
@@ -1199,6 +2607,33 @@
     searchBox.addEventListener('input', render);
     buyerSearchBox.addEventListener('input', render);
     timeSlotSelect.addEventListener('change', render);
+    [simPeople, simFullPassConversion, simPhotoTicket, simPhotoPercent].forEach(input => {
+      input.addEventListener('input', () => {
+        simulatorTouched = true;
+        render();
+      });
+    });
+    copyExecutiveSummary.addEventListener('click', async () => {
+      const text = executiveSummaryPlainText();
+      try {
+        if (window.navigator && navigator.clipboard) {
+          await navigator.clipboard.writeText(text);
+        } else if (!fallbackCopyText(text)) {
+          throw new Error('Fallback copy failed');
+        }
+        copyExecutiveSummary.textContent = 'Resumen copiado';
+        window.setTimeout(() => { copyExecutiveSummary.textContent = 'Copiar resumen'; }, 1600);
+      } catch (error) {
+        if (fallbackCopyText(text)) {
+          copyExecutiveSummary.textContent = 'Resumen copiado';
+          window.setTimeout(() => { copyExecutiveSummary.textContent = 'Copiar resumen'; }, 1600);
+        } else {
+          console.warn('No se pudo copiar el resumen:', error);
+          copyExecutiveSummary.textContent = 'No se pudo copiar';
+          window.setTimeout(() => { copyExecutiveSummary.textContent = 'Copiar resumen'; }, 1600);
+        }
+      }
+    });
     refreshBtn.addEventListener('click', loadAll);
     loadAll();
   </script>
