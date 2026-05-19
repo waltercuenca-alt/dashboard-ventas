@@ -745,7 +745,7 @@
       <div class="photo-kpis" id="scheduleOpportunityKpis"></div>
       <div class="photo-chart-grid opportunity-chart-grid">
         <div class="photo-chart">
-          <h3>Ventas totales por horario</h3>
+          <h3>Distribución de ventas por horario (%)</h3>
           <div id="scheduleTotalBars"></div>
         </div>
         <div class="photo-chart">
@@ -1335,6 +1335,31 @@
       return start + ' - ' + end;
     }
 
+    function parseTimeOfDay(value) {
+      const text = String(value || '').trim();
+      const match = text.match(/(\d{1,2})[:.](\d{2})(?::\d{2})?/);
+      if (!match) return null;
+      const hour = Number(match[1]);
+      const minute = Number(match[2]);
+      if (!Number.isFinite(hour) || !Number.isFinite(minute) || hour < 0 || hour > 23 || minute < 0 || minute > 59) return null;
+      return { hour, minute };
+    }
+
+    function formatTimeOfDay(totalMinutes) {
+      const hour = Math.floor(totalMinutes / 60);
+      const minute = totalMinutes % 60;
+      return String(hour).padStart(2, '0') + ':' + String(minute).padStart(2, '0');
+    }
+
+    function obtenerFranjaMediaHora(row) {
+      const raw = row['Hora Emisi\u00f3n'] || row['Hora Emision'] || row['Hora'] || row['Horario'] || '';
+      const parsed = parseTimeOfDay(raw);
+      if (!parsed) return normalizeTimeSlot(row['Horario'] || row['Turno']) || 'Sin horario';
+      const start = parsed.hour * 60 + Math.floor(parsed.minute / 30) * 30;
+      const end = start + 30;
+      return formatTimeOfDay(start) + ' - ' + formatTimeOfDay(end);
+    }
+
     function slotStartMinutes(slot) {
       const match = String(slot || '').match(/^(\d{1,2}):(\d{2})/);
       if (!match) return Number.MAX_SAFE_INTEGER;
@@ -1730,18 +1755,44 @@
       }
       const max = Math.max(...rows.map(item => item[key]), 1);
       el.innerHTML = rows.map(item => (
-        '<div class="bar-row"><div class="bar-label" title="' + esc(item.horario) + '">' + esc(item.horario) +
+        '<div class="bar-row" title="' + esc(item.horario + ' · ' + formatter(item[key])) + '"><div class="bar-label" title="' + esc(item.horario) + '">' + esc(item.horario) +
         '</div><div class="bar-track"><div class="bar" style="width:' + Math.max(2, item[key] / max * 100) +
         '%"></div></div><div class="bar-value">' + formatter(item[key]) + '</div></div>'
       )).join('');
     }
 
+    function scheduleTotalHalfHourAnalysis(rows) {
+      const map = new Map();
+      const totalGeneral = sum(rows, fields.total);
+      rows.forEach((row, index) => {
+        const horario = obtenerFranjaMediaHora(row);
+        if (!map.has(horario)) {
+          map.set(horario, {
+            horario,
+            totalVendido: 0,
+            porcentajeHorario: 0,
+            order: index
+          });
+        }
+        map.get(horario).totalVendido += toNumber(row[fields.total]);
+      });
+
+      return [...map.values()].map(item => ({
+        ...item,
+        porcentajeHorario: totalGeneral ? item.totalVendido / totalGeneral * 100 : 0
+      })).sort((a, b) => {
+        const diff = slotStartMinutes(a.horario) - slotStartMinutes(b.horario);
+        return diff || a.order - b.order;
+      });
+    }
+
     function renderScheduleOpportunities(rows) {
       const analisisHorarios = scheduleAnalysis(rows);
+      const ventasPorFranja = scheduleTotalHalfHourAnalysis(rows);
       const bestFullPass = bestSchedule(analisisHorarios, 'fullPass');
       const horariosFoto = analisisHorarios.filter(item => item.ingresoFoto > 0 || item.ventasFoto > 0);
       const bestPhoto = bestSchedule(horariosFoto, 'ingresoFoto') || bestSchedule(horariosFoto, 'ventasFoto');
-      const bestTotal = bestSchedule(analisisHorarios, 'totalVendido');
+      const bestTotal = bestSchedule(ventasPorFranja, 'porcentajeHorario');
       const opportunity = opportunityText(analisisHorarios);
 
       console.log('Horarios y oportunidades:', analisisHorarios);
@@ -1749,7 +1800,7 @@
       const cards = [
         ['Mejor horario para FULL PASS', bestFullPass ? bestFullPass.horario + ' · ' + num.format(bestFullPass.fullPass) : 'Sin datos'],
         ['Mejor horario para fotografía', bestPhoto ? bestPhoto.horario + ' · ' + money.format(bestPhoto.ingresoFoto) : 'Sin datos'],
-        ['Horario con mayor venta total', bestTotal ? bestTotal.horario + ' · ' + money.format(bestTotal.totalVendido) : 'Sin datos'],
+        ['Horario con mayor venta total', bestTotal ? bestTotal.horario + ' · ' + percent(bestTotal.porcentajeHorario) : 'Sin datos'],
         ['Oportunidad detectada', opportunity],
       ];
 
@@ -1757,7 +1808,7 @@
         '<div class="photo-kpi"><div class="label">' + esc(label) + '</div><div class="value">' + esc(value) + '</div></div>'
       )).join('');
 
-      renderScheduleBars('#scheduleTotalBars', analisisHorarios, 'totalVendido', value => money.format(value));
+      renderScheduleBars('#scheduleTotalBars', ventasPorFranja, 'porcentajeHorario', value => percent(value));
       renderScheduleBars('#scheduleFullPassBars', analisisHorarios, 'fullPass', value => num.format(value));
       renderScheduleBars('#schedulePhotoBars', analisisHorarios, 'ingresoFoto', value => money.format(value));
     }
@@ -1890,7 +1941,7 @@
       console.log('Día anterior comparado:', diaAnterior);
 
       const cards = [
-        ['Mejor día en ventas totales', bestSales ? bestSales.fecha + ' · ' + money.format(bestSales.totalVendido) : 'Sin datos'],
+        ['Mejor día en ventas totales', bestSales ? bestSales.fecha : 'Sin datos'],
         ['Mejor día en Full Pass', bestFullPass ? bestFullPass.fecha + ' · ' + num.format(bestFullPass.fullPass) : 'Sin datos'],
         ['Mejor día en fotografía', bestPhoto ? bestPhoto.fecha + ' · ' + money.format(bestPhoto.ingresoFotografia) : 'Sin datos'],
         ['Mayor conversión Full Pass', bestConversion ? bestConversion.fecha + ' · ' + percent(bestConversion.conversion) : 'Sin datos'],
@@ -2207,7 +2258,7 @@
       const acciones = [];
       let diagnostico = 'Diagnóstico: Fotografía con margen de crecimiento';
 
-      partes.push('El período analizado registra ' + money.format(metricas.totalVendido) + ' en ventas, con ' + num.format(metricas.totalPulseras) + ' pulseras vendidas y un ticket promedio de ' + money.format(metricas.ticketPromedio) + '.');
+      partes.push('El período analizado muestra un resultado económico protegido, con ' + num.format(metricas.totalPulseras) + ' pulseras vendidas, ' + num.format(metricas.fullPass) + ' Full Pass y una conversión premium de ' + percent(metricas.conversionFullPass) + '.');
 
       if (metricas.conversionFullPass > 25) {
         partes.push('El rendimiento premium fue sobresaliente, con una conversión Full Pass de ' + percent(metricas.conversionFullPass) + '.');
@@ -2224,7 +2275,7 @@
       }
 
       if (metricas.ingresoFotografia > 0) {
-        partes.push('La fotografía aportó ' + money.format(metricas.ingresoFotografia) + ' en ingresos adicionales y refuerza el valor percibido del Full Pass.');
+        partes.push('La fotografía aportó ingresos adicionales protegidos y refuerza el valor percibido del Full Pass, con una participación de ' + percent(metricas.participacionFotografia) + '.');
       }
       if (metricas.participacionFotografia < 3) {
         partes.push('La fotografía todavía tiene margen para crecer como producto comercial.');
@@ -2481,7 +2532,7 @@
       const tickets = new Set(rows.map(row => row[fields.pedido] || [row[fields.fecha], row[fields.cliente], row['Hora Emisión']].join('|')).filter(Boolean)).size;
       const ticketPromedio = tickets ? totalVendido / tickets : 0;
       const cards = [
-        ['Total vendido', money.format(totalVendido)],
+        ['Total vendido', 'Dato protegido'],
         ['Cantidad total de pulseras', num.format(totalPulseras)],
         ['PULSERA FULL PASS', num.format(totalFullPass)],
         ['PULSERA STANDARD', num.format(totalStandard)],
