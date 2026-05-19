@@ -18,7 +18,10 @@
       --shadow: 0 14px 36px rgba(31, 42, 55, .08);
     }
     * { box-sizing: border-box; }
-    html { overflow-x: hidden; }
+    html {
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
     body {
       margin: 0;
       background: var(--bg);
@@ -57,7 +60,44 @@
     }
     .status-dot.ok { background: var(--green); }
     .status-dot.bad { background: var(--rose); }
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px clamp(18px, 4vw, 48px);
+      background: rgba(246, 247, 249, .9);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+      -webkit-overflow-scrolling: touch;
+    }
+    .top-nav a {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 0 13px;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 760;
+      text-decoration: none;
+      box-shadow: 0 8px 18px rgba(31, 42, 55, .06);
+      white-space: nowrap;
+    }
+    .top-nav a:hover {
+      border-color: #b9c7d5;
+      color: var(--blue);
+    }
     main { padding: 22px clamp(18px, 4vw, 48px) 46px; }
+    .nav-section {
+      scroll-margin-top: 72px;
+    }
     .toolbar {
       display: flex;
       gap: 12px;
@@ -650,6 +690,12 @@
     }
     @media (max-width: 720px) {
       header { padding: 22px 16px 16px; }
+      .top-nav { padding: 9px 14px; }
+      .top-nav a {
+        min-height: 32px;
+        padding: 0 11px;
+        font-size: 12px;
+      }
       main { padding: 16px 14px 32px; }
       .toolbar { gap: 10px; }
       .panel, .buyer-panel { padding: 14px; }
@@ -713,7 +759,17 @@
     </div>
   </header>
 
+  <nav class="top-nav" aria-label="Navegacion del dashboard">
+    <a href="#resumen">Resumen</a>
+    <a href="#fotografia">Fotografía</a>
+    <a href="#horarios">Horarios</a>
+    <a href="#comparativa">Comparativa</a>
+    <a href="#simulador">Simulador</a>
+    <a href="#gerencia">Gerencia</a>
+  </nav>
+
   <main>
+    <section id="resumen" class="nav-section">
     <section class="toolbar">
       <select id="dateFilter"></select>
       <input id="searchBox" placeholder="Buscar cliente, item o usuario">
@@ -721,13 +777,30 @@
     </section>
 
     <section class="kpis" id="kpis"></section>
+    <section class="photo-analysis" id="executiveSummary">
+      <h2>Resumen Ejecutivo Automático</h2>
+      <p class="alert-subtitle">Lectura gerencial automática basada en los datos filtrados.</p>
+      <div class="executive-card">
+        <div class="executive-head">
+          <h3 id="executiveSummaryTitle">Resumen</h3>
+          <button class="executive-copy" id="copyExecutiveSummary" type="button">Copiar resumen</button>
+        </div>
+        <p class="executive-text" id="executiveSummaryText"></p>
+        <ul class="executive-actions" id="executiveSummaryActions"></ul>
+        <span class="executive-badge" id="executiveSummaryDiagnosis"></span>
+      </div>
+    </section>
+    </section>
+    <section id="fotografia" class="nav-section">
     <section class="photo-analysis" id="photoAnalysis">
-      <h2>📸 Análisis Fotografía</h2>
+      <h2>Análisis Fotografía</h2>
+      <p class="alert-subtitle">Impacto de la fotografía sobre la conversión premium.</p>
       <div class="photo-kpis" id="photoAnalysisKpis"></div>
-      <p class="photo-note">Esta sección estima cuánto aporta la fotografía al valor percibido del FULL PASS comparando la conversión real contra una base histórica del 15%.</p>
+      <p class="photo-note">Compara la conversión real contra una base histórica del 15%.</p>
     </section>
     <section class="photo-analysis" id="photoPerformance">
-      <h2>📷 Rendimiento Fotografía</h2>
+      <h2>Rendimiento Fotografía</h2>
+      <p class="alert-subtitle">Ingresos, paquetes y participación del producto fotográfico.</p>
       <div class="photo-kpis" id="photoPerformanceKpis"></div>
       <div class="photo-chart-grid">
         <div class="photo-chart">
@@ -740,8 +813,11 @@
         </div>
       </div>
     </section>
+    </section>
+    <section id="horarios" class="nav-section">
     <section class="photo-analysis" id="scheduleOpportunities">
-      <h2>⏰ Horarios y Oportunidades de Venta</h2>
+      <h2>Horarios y Oportunidades de Venta</h2>
+      <p class="alert-subtitle">Franjas horarias con mayor actividad y oportunidades comerciales.</p>
       <div class="photo-kpis" id="scheduleOpportunityKpis"></div>
       <div class="photo-chart-grid opportunity-chart-grid">
         <div class="photo-chart">
@@ -758,8 +834,11 @@
         </div>
       </div>
     </section>
+    </section>
+    <section id="comparativa" class="nav-section">
     <section class="photo-analysis" id="comparisonEvolution">
-      <h2>📈 Comparativa y Evolución</h2>
+      <h2>Comparativa y Evolución</h2>
+      <p class="alert-subtitle">Evolución diaria de conversión, Full Pass y fotografía.</p>
       <div class="photo-kpis" id="comparisonEvolutionKpis"></div>
       <div class="photo-kpis" id="comparisonDeltaKpis"></div>
       <div class="photo-chart-grid evolution-chart-grid">
@@ -781,12 +860,11 @@
         </div>
       </div>
     </section>
-    <section class="photo-analysis" id="smartRecommendations">
-      <h2>🧠 Recomendaciones Inteligentes</h2>
-      <div class="recommendation-grid" id="smartRecommendationCards"></div>
     </section>
+    <section id="simulador" class="nav-section">
     <section class="photo-analysis" id="scenarioSimulator">
-      <h2>🎯 Simulador y Predicción</h2>
+      <h2>Simulador y Predicción</h2>
+      <p class="alert-subtitle">Escenarios proyectados para conversión premium y fotografía.</p>
       <div class="simulator-controls">
         <div class="sim-control">
           <label for="simPeople">Personas proyectadas</label>
@@ -819,26 +897,20 @@
         </div>
       </div>
     </section>
+    </section>
+    <section id="gerencia" class="nav-section">
+    <section class="photo-analysis" id="smartRecommendations">
+      <h2>Recomendaciones Inteligentes</h2>
+      <p class="alert-subtitle">Acciones sugeridas según el comportamiento del período filtrado.</p>
+      <div class="recommendation-grid" id="smartRecommendationCards"></div>
+    </section>
     <section class="photo-analysis" id="intelligentAlerts">
-      <h2>🚨 Centro de Alertas Inteligentes</h2>
+      <h2>Centro de Alertas Inteligentes</h2>
       <p class="alert-subtitle">El sistema detecta automáticamente oportunidades, riesgos y hallazgos según los datos filtrados.</p>
       <div class="recommendation-grid" id="intelligentAlertCards"></div>
     </section>
-    <section class="photo-analysis" id="executiveSummary">
-      <h2>👨‍💼 Resumen Ejecutivo Automático</h2>
-      <p class="alert-subtitle">Lectura gerencial automática basada en los datos filtrados.</p>
-      <div class="executive-card">
-        <div class="executive-head">
-          <h3 id="executiveSummaryTitle">Resumen</h3>
-          <button class="executive-copy" id="copyExecutiveSummary" type="button">Copiar resumen</button>
-        </div>
-        <p class="executive-text" id="executiveSummaryText"></p>
-        <ul class="executive-actions" id="executiveSummaryActions"></ul>
-        <span class="executive-badge" id="executiveSummaryDiagnosis"></span>
-      </div>
-    </section>
     <section class="photo-analysis" id="weekendComparator">
-      <h2>📅 Comparador Inteligente de Fines de Semana</h2>
+      <h2>Comparador Inteligente de Fines de Semana</h2>
       <p class="alert-subtitle">Comparación automática entre días equivalentes para entender el rendimiento real.</p>
       <div id="weekendComparableStatus" class="weekend-status"></div>
       <div class="photo-kpis" id="weekendComparatorKpis"></div>
@@ -853,6 +925,7 @@
           <div class="sim-recommendation" id="weekendComparatorAction"></div>
         </div>
       </div>
+    </section>
     </section>
     <section class="goal-panel" id="goalPanel">
       <div>
@@ -871,7 +944,7 @@
         <div id="paymentBars"></div>
       </article>
       <article class="panel">
-        <h2>Items</h2>
+        <h2>Ítems</h2>
         <div id="productBars"></div>
       </article>
       <article class="panel wide">
@@ -880,7 +953,7 @@
         <div id="photoPackageBars"></div>
       </article>
       <article class="panel wide">
-        <h2>Tasa de conversion de brazaletes</h2>
+        <h2>Tasa de conversión de brazaletes</h2>
         <div class="slot-summary" id="conversionSummary"></div>
       </article>
       <article class="panel wide">
