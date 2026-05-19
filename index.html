@@ -499,24 +499,30 @@
   </main>
 
   <script>
+    const SHEET_ID = '1V8Sv_GcvzsdkKTRALg3RH5tYdSog9nqii0ecGuq9jGs';
+    const SHEET_NAME = 'BASE_CONSOLIDADA';
+    const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(SHEET_NAME)}&tqx=out:json`;
+    const LOCAL_BASE_URL = './BASE_CONSOLIDADA.json';
+
     const CONFIG = {
-      spreadsheetId: '13MTcF50BDLZ3Prn7HXBGBjDg8c-6ghznpXzxACh9EwE',
-      sheetName: 'BASE_CONSOLIDADA',
+      spreadsheetId: SHEET_ID,
+      sheetName: SHEET_NAME,
       refreshMs: 30 * 60 * 1000,
       dailyGoal: 0,
       sheets: [
-        { name: 'BASE_CONSOLIDADA' },
+        { name: SHEET_NAME },
       ],
     };
-    const SHEET_URL = 'https://docs.google.com/spreadsheets/d/' + CONFIG.spreadsheetId +
-      '/gviz/tq?sheet=' + encodeURIComponent(CONFIG.sheetName) + '&tqx=out:json';
+    console.log('Dashboard conectado al nuevo Google Sheet');
+    console.log('Sheet ID:', CONFIG.spreadsheetId);
+    console.log('Excel actualizado hasta 17/05/26');
 
     const fields = {
-      fecha: 'Emisión',
+      fecha: 'Fecha Exacta',
       pedido: 'Nº',
-      producto: 'Item',
+      producto: 'Item Normalizado',
       categoria: 'Clasificación Cliente',
-      cantidad: 'Cantidad Item',
+      cantidad: 'Cantidad',
       total: 'Total',
       gravado: 'Gravado',
       iva: 'Igv',
@@ -622,7 +628,34 @@
         '';
     }
 
-    function loadSheet(sheet) {
+    function normalizeLoadedRow(obj, sheetName) {
+      obj.hoja = obj.hoja || sheetName || SHEET_NAME;
+      obj[fields.fecha] = normalizeSearchDate(obj['Fecha Exacta'] || obj['Fecha ISO'] || obj[fields.fecha] || obj['Emisión'] || obj['Emision']);
+      obj._fechaOriginal = getRowDate(obj);
+      obj._fechaNormalizada = normalizeSearchDate(obj[fields.fecha] || obj._fechaOriginal);
+      obj[fields.producto] = String(obj[fields.producto] || obj.Item || '').trim().toUpperCase();
+      if (obj[fields.producto].includes('PULSERA PREMIUM')) obj[fields.producto] = 'PULSERA FULL PASS';
+      obj.Item = obj[fields.producto];
+      obj[fields.cantidad] = toNumber(obj[fields.cantidad] ?? obj['Cantidad Item']);
+      obj['Cantidad Item'] = obj[fields.cantidad];
+      obj[fields.total] = toNumber(obj[fields.total]);
+      return obj;
+    }
+
+    function loadLocalBase(sheet) {
+      return fetch(LOCAL_BASE_URL + '?cacheBust=' + Date.now())
+        .then(response => {
+          if (!response.ok) throw new Error('No se pudo leer BASE_CONSOLIDADA.json: ' + response.status);
+          return response.json();
+        })
+        .then(base => {
+          const rows = (base.rows || []).map(row => normalizeLoadedRow(row, base.sheetName || sheet.name));
+          console.log('Filas cargadas:', rows.length);
+          return rows;
+        });
+    }
+
+    function loadGvizSheet(sheet) {
       return fetch(SHEET_URL + '&cacheBust=' + Date.now())
         .then(response => {
           if (!response.ok) throw new Error('No se pudo leer ' + sheet.name + ': ' + response.status);
@@ -639,12 +672,16 @@
               const cell = row.c[index];
               obj[header] = cell ? (cell.f ?? cell.v ?? '') : '';
             });
-            const fechaOriginal = getRowDate(obj);
-            obj._fechaOriginal = fechaOriginal;
-            obj._fechaNormalizada = normalizeSearchDate(fechaOriginal);
-            return obj;
+            return normalizeLoadedRow(obj, sheet.name);
           }).filter(row => Object.keys(row).some(key => key !== 'hoja' && row[key] !== ''));
         });
+    }
+
+    function loadSheet(sheet) {
+      return loadLocalBase(sheet).catch(error => {
+        console.warn(error.message + '. Usando Google Sheets GViz.');
+        return loadGvizSheet(sheet);
+      });
     }
 
     function cargarOpcionesFechas(datos) {
@@ -670,6 +707,7 @@
 
       if (fechas.includes(current)) dateFilter.value = current;
       console.log('Fechas disponibles:', fechas);
+      console.log('Fechas únicas:', fechas.length);
     }
 
     function aplicarFiltroFecha(datos) {
@@ -699,6 +737,7 @@
         const nextRows = groups.flat();
         allRows = nextRows;
         console.log('Cantidad de filas:', allRows.length);
+        console.log('Filas cargadas:', allRows.length);
         cargarOpcionesFechas(allRows);
         setStatus('ok', 'Datos actualizados');
         lastUpdate.textContent = 'Última actualización: ' + new Date().toLocaleString('es-PE');
@@ -828,17 +867,19 @@
       const totalBracelets = rows.reduce((acc, row) => (
         isBraceletItem(row) ? acc + toNumber(row[fields.cantidad]) : acc
       ), 0);
-      const standardKids = rows.reduce((acc, row) => (
-        isStandardOrKidsBracelet(row) ? acc + toNumber(row[fields.cantidad]) : acc
+      const fullPass = rows.reduce((acc, row) => (
+        String(row[fields.producto] || '').toUpperCase().includes('PULSERA FULL PASS') ? acc + toNumber(row[fields.cantidad]) : acc
       ), 0);
-      const otherBracelets = Math.max(0, totalBracelets - standardKids);
-      const conversionRate = totalBracelets ? otherBracelets / totalBracelets * 100 : 0;
+      const standard = rows.reduce((acc, row) => (
+        String(row[fields.producto] || '').toUpperCase().includes('PULSERA STANDARD') ? acc + toNumber(row[fields.cantidad]) : acc
+      ), 0);
+      const conversionRate = totalBracelets ? fullPass / totalBracelets * 100 : 0;
 
       summary.innerHTML = [
-        ['Tasa de conversion', percent(conversionRate)],
-        ['Standard + Kids', num.format(standardKids)],
-        ['Full Pass, Full Day y Premium Kids', num.format(otherBracelets)],
-        ['Total brazaletes', num.format(totalBracelets)],
+        ['Conversión Full Pass', percent(conversionRate)],
+        ['PULSERA FULL PASS', num.format(fullPass)],
+        ['PULSERA STANDARD', num.format(standard)],
+        ['Total pulseras', num.format(totalBracelets)],
       ].map(([label, value]) => '<div class="slot-stat"><span class="label">' + esc(label) + '</span><strong>' + esc(value) + '</strong></div>').join('');
     }
 
@@ -1030,22 +1071,23 @@
     }
 
     function renderKpis(rows) {
-      const braceletTypes = [
-        ['Brazalete Standar', ['PULSERA STANDARD', 'BRAZALETE STANDARD', 'BRAZALETE STANDAR']],
-        ['Brazalete Full Pass', ['PULSERA FULL PASS', 'BRAZALETE FULL PASS']],
-        ['Brazalete Full Day', ['PULSERA FULL DAY', 'BRAZALETE FULL DAY']],
-        ['Brazalete Premium Kids', ['PULSERA PREMIUM KIDS', 'BRAZALETE PREMIUM KIDS']],
-        ['Pulsera Kids', ['PULSERA KIDS', 'BRAZALETE KIDS']],
-        ['Pulsera Yakutobogan', ['PULSERA YAKUTOBogan', 'YAKUTOBogan', 'PULSERA YAKUTBOGAN', 'YAKUTBOGAN'].map(text => text.toUpperCase())],
-      ];
+      const totalVendido = sum(rows, fields.total);
       const totalPulseras = rows.reduce((acc, row) => {
         const item = String(row[fields.producto] || '').toUpperCase();
-        const matches = braceletTypes.some(([, aliases]) => aliases.some(alias => item.includes(alias)));
-        return matches ? acc + toNumber(row[fields.cantidad]) : acc;
+        return item.includes('PULSERA') ? acc + toNumber(row[fields.cantidad]) : acc;
       }, 0);
+      const totalFullPass = braceletQuantity(rows, ['PULSERA FULL PASS']);
+      const totalStandard = braceletQuantity(rows, ['PULSERA STANDARD']);
+      const conversionFullPass = totalPulseras ? totalFullPass / totalPulseras * 100 : 0;
+      const tickets = new Set(rows.map(row => row[fields.pedido] || [row[fields.fecha], row[fields.cliente], row['Hora Emisión']].join('|')).filter(Boolean)).size;
+      const ticketPromedio = tickets ? totalVendido / tickets : 0;
       const cards = [
-        ['Pulseras vendidas hasta el momento', num.format(totalPulseras)],
-        ...braceletTypes.map(([label, aliases]) => [label, num.format(braceletQuantity(rows, aliases))]),
+        ['Total vendido', money.format(totalVendido)],
+        ['Cantidad total de pulseras', num.format(totalPulseras)],
+        ['PULSERA FULL PASS', num.format(totalFullPass)],
+        ['PULSERA STANDARD', num.format(totalStandard)],
+        ['Conversión Full Pass', percent(conversionFullPass)],
+        ['Ticket promedio', money.format(ticketPromedio)],
       ];
       document.querySelector('#kpis').innerHTML = cards.map(([label, value]) => (
         '<div class="kpi"><div class="label">' + esc(label) + '</div><div class="value">' + esc(value) + '</div></div>'
@@ -1138,8 +1180,9 @@
     function render() {
       const rows = filteredRows();
       const metric = fields.cantidad;
+      const amountMetric = fields.total;
       renderKpis(rows);
-      renderBars('#paymentBars', groupSum(rows, fields.metodo, metric), metric);
+      renderBars('#paymentBars', groupSum(rows, fields.metodo, amountMetric), amountMetric);
       renderBars('#productBars', selectedItems(rows, metric), metric);
       renderPhotoPackages(rows);
       renderConversion(rows);
